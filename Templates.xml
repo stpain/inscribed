@@ -1,0 +1,97 @@
+
+<UI>
+
+    <Frame name="InscribedSmallHighlightButton" mixin="InscribedSmallHighlightButtonMixin" virtual="true" enableMouse="true">
+        <Layers>
+            <Layer level="HIGHLIGHT">
+                <Texture atlas="transmog-frame-pink" setAllPoints="true"/>
+            </Layer>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="icon" setAllPoints="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+            <OnShow method="OnShow"/>
+            <OnMouseDown method="OnMouseDown"/>
+            <OnMouseUp method="OnMouseUp"/>
+            <OnEnter method="OnEnter"/>
+            <OnLeave method="OnLeave"/>
+        </Scripts>
+	</Frame>
+
+
+    <Frame name="InscribedListviewTemplate" mixin="InscribedListviewMixin" virtual="true">
+        <Frames>
+            <Frame parentKey="ScrollBox" inherits="WowScrollBoxList"/>
+            <EventFrame parentKey="ScrollBar" inherits="WowTrimScrollBar">
+                <Anchors>
+                    <Anchor point="TOPRIGHT"/>
+                    <Anchor point="BOTTOMRIGHT"/>
+                </Anchors>
+            </EventFrame>
+        </Frames>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+        </Scripts>
+    </Frame>
+
+
+    <Frame name="InscribedListviewBasicIconTextTemplate" mixin="InscribedListviewItemTemplateMixin" enableMouse="true" virtual="true">
+        <Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="background" atlas="PetList-ButtonBackground" useAtlasSize="false" setAllPoints="true"/>
+			</Layer>
+			<Layer level="HIGHLIGHT">
+				<Texture parentKey="highlight" atlas="PetList-ButtonHighlight" useAtlasSize="false" setAllPoints="true"/>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture parentKey="selected" atlas="PetList-ButtonSelect" useAtlasSize="false" setAllPoints="true" hidden="true"/>
+			</Layer>
+            <Layer level="ARTWORK">
+                <Texture parentKey="icon">
+                    <Anchors>
+                        <Anchor point="LEFT" x="4" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString parentkey="text" inherits="GameFontNormal" justifyH="LEFT">
+                    <Color r="1" g="1" b="1"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.icon" relativePoint="RIGHT" x="6" y="0"/>
+                        <Anchor point="RIGHT" x="-4" y="0"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+            <OnMouseDown method="OnMouseDown"/>
+            <OnMouseUp method="OnMouseUp"/>
+        </Scripts>
+    </Frame>
+
+
+    <Frame name="InscribedGuideTemplate" mixin="InscribedGuideTemplateMixin" enableMouse="true" virtual="true">
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString parentKey="title" inherits="GameFontNormal" parentArray="texts">
+                    <Anchors>
+                        <Anchor point="TOP" x="0" y="-4"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnShow method="OnShow"/>
+            <OnHide method="OnHide"/>
+        </Scripts>
+    </Frame>
+
+</UI>

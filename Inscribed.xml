@@ -1,0 +1,147 @@
+<UI>
+
+    <Frame name="Inscribed" mixin="InscribedMixin" parent="UIParent" enableMouse="true" inherits="PortraitFrameTemplate" movable="true">
+        <Size x="602" y="405"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND" textureSubLevel="-1">
+                <Texture parentKey="backgroundLeft" atlas="tradeskill-background-recipe" useAtlasSize="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="-22"/>
+                        <Anchor point="BOTTOMLEFT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="backgroundRight" atlas="tradeskill-background-recipe-unlearned" useAtlasSize="true">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-2" y="-22"/>
+                        <Anchor point="BOTTOMRIGHT" x="-2" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <Frame parentKey="guide" inherits="InscribedSmallHighlightButton">
+                <Size x="40" y="40"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="10" y="-70"/>
+                </Anchors>
+                <KeyValues>
+                    <KeyValue key="iconFileId" value="133739" type="number"/>
+                    <KeyValue key="tooltipText" value="LEVELING_GUIDE" type="string"/>
+                </KeyValues>
+            </Frame>
+            <Frame parentKey="pigments" inherits="InscribedSmallHighlightButton">
+                <Size x="40" y="40"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="10" y="-115"/>
+                </Anchors>
+                <KeyValues>
+                    <KeyValue key="iconFileId" value="134190" type="number"/>
+                    <KeyValue key="tooltipText" value="PIGMENTS" type="string"/>
+                </KeyValues>
+            </Frame>
+            <Frame parentKey="inks" inherits="InscribedSmallHighlightButton">
+                <Size x="40" y="40"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="10" y="-160"/>
+                </Anchors>
+                <KeyValues>
+                    <KeyValue key="iconFileId" value="134812" type="number"/>
+                    <KeyValue key="tooltipText" value="INKS" type="string"/>
+                </KeyValues>
+            </Frame>
+
+
+
+
+            <Frame parentKey="listview" inherits="InscribedListviewTemplate">
+                <Size x="250" y="350"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="300" y="4"/>
+                </Anchors>
+                <KeyValues>
+                    <KeyValue key="frameType" value="FRAME" type="string"/>
+                    <KeyValue key="itemTemplate" value="InscribedListviewBasicIconTextTemplate" type="string"/>
+                    <KeyValue key="elementHeight" value="30" type="number"/>
+                </KeyValues>
+            </Frame>
+
+            <!-- <Frame parentKey="guideListview" inherits="InscribedListviewTemplate" parentArray="listviews" hidden="true">
+                <Size x="250" y="350"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="300" y="4"/>
+                </Anchors>
+                <KeyValues>
+                    <KeyValue key="frameType" value="FRAME" type="string"/>
+                    <KeyValue key="itemTemplate" value="InscribedListviewBasicIconTextTemplate" type="string"/>
+                    <KeyValue key="elementHeight" value="30" type="number"/>
+                    <KeyValue key="childContent" value="guideContent" type="string"/>
+                </KeyValues>
+            </Frame>
+
+            <Frame parentKey="pigmentListview" inherits="InscribedListviewTemplate" parentArray="listviews" hidden="true">
+                <Size x="250" y="350"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="300" y="4"/>
+                </Anchors>
+                <KeyValues>
+                    <KeyValue key="frameType" value="FRAME" type="string"/>
+                    <KeyValue key="itemTemplate" value="InscribedListviewBasicIconTextTemplate" type="string"/>
+                    <KeyValue key="elementHeight" value="40" type="number"/>
+                    <KeyValue key="childContent" value="pigmentsContent" type="string"/>
+                </KeyValues>
+            </Frame>
+
+            <Frame parentKey="inksListview" inherits="InscribedListviewTemplate" parentArray="listviews" hidden="true">
+                <Size x="250" y="350"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="300" y="4"/>
+                </Anchors>
+                <KeyValues>
+                    <KeyValue key="frameType" value="FRAME" type="string"/>
+                    <KeyValue key="itemTemplate" value="InscribedListviewBasicIconTextTemplate" type="string"/>
+                    <KeyValue key="elementHeight" value="40" type="number"/>
+                    <KeyValue key="childContent" value="inksContent" type="string"/>
+                </KeyValues>
+            </Frame> -->
+
+
+            <Frame parentKey="content">
+                <Size x="290" y="350"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="4"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <FontString parentKey="title" inherits="GameFontNormal" parentArray="texts">
+                            <Anchors>
+                                <Anchor point="TOP" x="0" y="-4"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+            <!-- <Frame parentKey="guideContent" inherits="InscribedGuideTemplate" parentArray="listviewChildContent" hidden="true">
+                <Size x="290" y="350"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="4"/>
+                </Anchors>
+            </Frame> -->
+
+        </Frames>
+
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+            </OnDragStop>
+        </Scripts>
+    </Frame>
+
+</UI>

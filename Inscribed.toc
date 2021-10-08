@@ -1,0 +1,15 @@
+## Interface: 20502
+## Title: Inscribed
+## Notes: Inscription addon
+## Version: 0.1
+## Author: S T Pain
+## SavedVariables: INSCRIBED_GLOBAL
+
+Locales.lua
+Data.lua
+
+Templates.lua
+Templates.xml
+
+Inscribed.lua
+Inscribed.xml
