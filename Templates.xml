@@ -4,13 +4,28 @@
     <Frame name="InscribedSmallHighlightButton" mixin="InscribedSmallHighlightButtonMixin" virtual="true" enableMouse="true">
         <Layers>
             <Layer level="HIGHLIGHT">
-                <Texture atlas="transmog-frame-pink" setAllPoints="true"/>
+                <Texture atlas="transmog-frame-pink">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-4" y="4"/>
+                        <Anchor point="BOTTOMRIGHT" x="4" y="-4"/>
+                    </Anchors>
+                </Texture>
             </Layer>
-            <Layer level="BACKGROUND">
+            <Layer level="BACKGROUND" textureSubLevel="-1">
                 <Texture parentKey="icon" setAllPoints="true">
+                    <Color r="0" g="0" b="0"/>
                     <Anchors>
                         <Anchor point="TOPLEFT" x="0" y="0"/>
                         <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="icon" setAllPoints="true">
+                    <TexCoords left="0.1" right="0.9" top="0.1" bottom="0.9"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="1" y="-1"/>
+                        <Anchor point="BOTTOMRIGHT" x="-1" y="1"/>
                     </Anchors>
                 </Texture>
             </Layer>
@@ -78,20 +93,73 @@
     </Frame>
 
 
-    <Frame name="InscribedGuideTemplate" mixin="InscribedGuideTemplateMixin" enableMouse="true" virtual="true">
+    <Frame name="InscribedPigmentSourceTemplate" mixin="InscribedPigmentSourceTemplateMixin" enableMouse="true" virtual="true">
         <Layers>
-            <Layer level="OVERLAY">
-                <FontString parentKey="title" inherits="GameFontNormal" parentArray="texts">
+            <Layer level="BACKGROUND" textureSubLevel="-1">
+                <Texture parentKey="iconBorder">
+                    <Color r="0" g="0" b="0"/>
                     <Anchors>
-                        <Anchor point="TOP" x="0" y="-4"/>
+                        <Anchor point="LEFT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture parentKey="icon">
+                    <TexCoords left="0.1" right="0.9" top="0.1" bottom="0.9"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="1" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString parentKey="name" inherits="GameFontNormal" parentArray="texts">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.icon" relativePoint="RIGHT" x="8" y="0"/>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="chance" inherits="GameFontNormal" parentArray="texts" justifyH="LEFT">
+                    <Size x="30"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-4" y="0"/>
                     </Anchors>
                 </FontString>
             </Layer>
         </Layers>
-        <Scripts>
-            <OnShow method="OnShow"/>
-            <OnHide method="OnHide"/>
-        </Scripts>
+    </Frame>
+
+
+    <Frame name="InscribedInkMaterialsTemplate" mixin="InscribedInkMaterialsTemplateMixin" enableMouse="true" virtual="true">
+        <Layers>
+            <Layer level="BACKGROUND" textureSubLevel="-1">
+                <Texture parentKey="iconBorder">
+                    <Color r="0" g="0" b="0"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture parentKey="icon">
+                    <TexCoords left="0.1" right="0.9" top="0.1" bottom="0.9"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="1" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString parentKey="name" inherits="GameFontNormal" parentArray="texts">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.icon" relativePoint="RIGHT" x="8" y="0"/>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="quantidy" inherits="GameFontNormal" parentArray="texts" justifyH="LEFT">
+                    <Size x="30"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-4" y="0"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
     </Frame>
 
 </UI>

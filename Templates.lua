@@ -38,15 +38,15 @@ end
 
 function InscribedSmallHighlightButtonMixin:OnEnter()
     if self.tooltipText and L[self.tooltipText] then
-        GameTooltip:SetOwner(self, 'ANCHOR_TOP')
+        GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip:AddLine("|cffffffff"..L[self.tooltipText])
         GameTooltip:Show()
     elseif self.tooltipText and not L[self.tooltipText] then
-        GameTooltip:SetOwner(self, 'ANCHOR_TOP')
+        GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip:AddLine(self.tooltipText)
         GameTooltip:Show()
     elseif self.link then
-        GameTooltip:SetOwner(self, 'ANCHOR_TOP')
+        GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip:SetHyperlink(self.link)
         GameTooltip:Show()
     else
@@ -73,10 +73,13 @@ InscribedListviewMixin = CreateFromMixins(CallbackRegistryMixin);
 InscribedListviewMixin:GenerateCallbackEvents(
     {
         "OnSelectionChanged",
+        "OnDataTableChanged",
     }
 );
 
 function InscribedListviewMixin:OnLoad()
+
+    ---these values are set in the xml frames KeyValues, it allows use to reuse code by setting listview item values in xml
     if type(self.itemTemplate) ~= "string" then
         error("self.itemTemplate name not set or not of type string")
         return;
@@ -91,6 +94,10 @@ function InscribedListviewMixin:OnLoad()
     end
 
     CallbackRegistryMixin.OnLoad(self)
+
+    ---when the user changes the listview (via the menu buttons) the data is flushed and the new data inserted
+    ---here we setup a callback so that any selected items from a previous menu will be reselected
+    self:RegisterCallback("OnDataTableChanged", self.OnDataTableChanged, self)
 
     self.DataProvider = CreateDataProvider();
     self.ScrollView = CreateScrollBoxListLinearView();
@@ -138,6 +145,15 @@ end
 
 function InscribedListviewMixin:OnElementClicked(element)
     self.selectionBehavior:Select(element);
+end
+
+function InscribedListviewMixin:OnDataTableChanged(newTable)
+    for k, elementData in ipairs(newTable) do
+        if elementData.selected then
+            local element = self.ScrollView:FindFrame(elementData);
+            self:OnElementSelectionChanged(elementData, true)
+        end
+    end
 end
 
 function InscribedListviewMixin:OnElementSelectionChanged(elementData, selected)
@@ -194,7 +210,6 @@ end
 
 function InscribedListviewItemTemplateMixin:SetSelected(selected)
     self.selected:SetShown(selected)
-    print(self.text:GetText(), selected)
 end
 
 function InscribedListviewItemTemplateMixin:SetDataBinding(binding, height)
@@ -214,11 +229,10 @@ function InscribedListviewItemTemplateMixin:SetDataBinding(binding, height)
     end
 
     --self.dataBinding = binding;
+    self:SetSelected(binding.selected);
 
     ---for now this is a universal template so check each value
-    if binding.text then
-        self.text:SetText(binding.text)
-    elseif binding.name then
+    if binding.name then
         self.text:SetText(binding.name)
     elseif binding.title then
         self.text:SetText(binding.title)
@@ -239,3 +253,94 @@ function InscribedListviewItemTemplateMixin:SetDataBinding(binding, height)
 
     self.icon:SetTexture(134877)
 end
+
+
+
+
+
+
+
+InscribedPigmentSourceTemplateMixin = {}
+
+function InscribedPigmentSourceTemplateMixin:ClearPigmentSource()
+    self.icon:SetTexture(nil)
+    self.name:SetText(nil)
+    self.chance:SetText(nil)
+    self:Hide()
+end
+
+function InscribedPigmentSourceTemplateMixin:SetPigmentSource(source)
+    if type(source) == "table" then
+        if type(source.itemId) == "number" then
+            local _, _, _, _, icon = GetItemInfoInstant(source.itemId)
+            if type(icon) == "number" then
+                self.icon:SetTexture(icon)
+            else
+                --error("icon value returned from GetItemInfoInstant is not of type number")
+                self.icon:SetTexture(nil)
+            end
+        end
+        if type(source.name) == "string" then
+            self.name:SetText(source.name)
+        else
+            self.name:SetText(nil)
+            --error("source name is not of type string")
+        end
+        if type(source.chance) == "number" then
+            self.chance:SetText(string.format("%.2f", source.chance))
+        else
+            self.chance:SetText(nil)
+            --error("source chance is not of type string")
+        end
+        self:Show()
+    else
+        self.icon:SetTexture(nil)
+        self.name:SetText(nil)
+        self.chance:SetText(nil)
+        self:Hide()
+    end
+end
+
+
+InscribedInkMaterialsTemplateMixin = {}
+
+function InscribedInkMaterialsTemplateMixin:ClearInkMaterials()
+    self.icon:SetTexture(nil)
+    self.name:SetText(nil)
+    self.quantidy:SetText(nil)
+    self:Hide()
+end
+
+function InscribedInkMaterialsTemplateMixin:SetInkMaterials(source)
+    if type(source) == "table" then
+        if type(source.itemId) == "number" then
+            local _, _, _, _, icon = GetItemInfoInstant(source.itemId)
+            if type(icon) == "number" then
+                self.icon:SetTexture(icon)
+            else
+                --error("icon value returned from GetItemInfoInstant is not of type number")
+                self.icon:SetTexture(nil)
+            end
+        end
+        if type(source.name) == "string" then
+            self.name:SetText(source.name)
+        else
+            self.name:SetText(nil)
+            --error("source name is not of type string")
+        end
+        if type(source.quantidy) == "number" then
+            self.quantidy:SetText(string.format("%.2f", source.quantidy))
+        else
+            self.quantidy:SetText(nil)
+            --error("source quantidy is not of type string")
+        end
+        self:Show()
+    else
+        self.icon:SetTexture(nil)
+        self.name:SetText(nil)
+        self.quantidy:SetText(nil)
+        self:Hide()
+    end
+end
+
+

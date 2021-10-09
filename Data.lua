@@ -40,7 +40,7 @@ ns.pigments = {
                 chance = 1.0,
             },
             {
-                itemId = 1620,
+                itemId = 785,
                 name = "Mageroyal",
                 chance = 1.0,
             },
@@ -50,7 +50,7 @@ ns.pigments = {
                 chance = 1.0,
             },
             {
-                itemId = 1621,
+                itemId = 2450,
                 name = "Briarthorn",
                 chance = 1.0,
             },
@@ -68,20 +68,20 @@ ns.pigments = {
             {
                 itemId = 3820,
                 name = "Stranglekelp",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
-                itemId = 1620,
+                itemId = 785,
                 name = "Mageroyal",
                 chance = 0.25,
             },
             {
                 itemId = 2453,
                 name = "Bruiseweed",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
-                itemId = 1621,
+                itemId = 2450,
                 name = "Briarthorn",
                 chance = 0.25,
             },
@@ -92,17 +92,17 @@ ns.pigments = {
         name = "Golden Pigment",
         sources = {
             {
-                itemId = 1623,
+                itemId = 3355,
                 name = "Wild Steelbloom",
                 chance = 1.0,
             },
             {
-                itemId = 2401,
+                itemId = 3357,
                 name = "Liferoot",
                 chance = 1.0,
             },
             {
-                itemId = 1624,
+                itemId = 3356,
                 name = "Kingsblood",
                 chance = 1.0,
             },
@@ -118,19 +118,19 @@ ns.pigments = {
         name = "Burnt Pigment",
         sources = {
             {
-                itemId = 1623,
+                itemId = 3355,
                 name = "Wild Steelbloom",
                 chance = 0.25,
             },
             {
-                itemId = 2401,
+                itemId = 3357,
                 name = "Liferoot",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
-                itemId = 1624,
+                itemId = 3356,
                 name = "Kingsblood",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
                 itemId = 3369,
@@ -144,22 +144,22 @@ ns.pigments = {
         name = "Emerald Pigment",
         sources = {
             {
-                itemId = 3819,
+                itemId = 3358,
                 name = "Wintersbite",
                 chance = 1.0,
             },
             {
-                itemId = 2403,
+                itemId = 3358,
                 name = [[Khadgar's Whisker]],
                 chance = 1.0,
             },
             {
-                itemId = 2046,
+                itemId = 3821,
                 name = "Goldthorn",
                 chance = 1.0,
             },
             {
-                itemId = 2042,
+                itemId = 3818,
                 name = "Fadeleaf",
                 chance = 1.0,
             },
@@ -170,22 +170,22 @@ ns.pigments = {
         name = "Indigo Pigment",
         sources = {
             {
-                itemId = 3819,
+                itemId = 3358,
                 name = "Wintersbite",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
-                itemId = 2403,
+                itemId = 3358,
                 name = [[Khadgar's Whisker]],
-                chance = 0.5,
+                chance = 0.50,
             },
             {
-                itemId = 2046,
+                itemId = 3821,
                 name = "Goldthorn",
                 chance = 0.25,
             },
             {
-                itemId = 2042,
+                itemId = 3818,
                 name = "Fadeleaf",
                 chance = 0.25,
             },
@@ -196,27 +196,27 @@ ns.pigments = {
         name = "Violet Pigment",
         sources = {
             {
-                itemId = 142142,
+                itemId = 8838,
                 name = "Sungrass",
                 chance = 1.0,
             },
             {
-                itemId = 142141,
+                itemId = 8836,
                 name = [[Arthas' Tears]],
                 chance = 1.0,
             },
             {
-                itemId = 142140,
+                itemId = 8831,
                 name = "Purple Lotus",
                 chance = 1.0,
             },
             {
-                itemId = 142145,
+                itemId = 8846,
                 name = "Gromsblood",
                 chance = 1.0,
             },
             {
-                itemId = 142144,
+                itemId = 8845,
                 name = "Ghost Mushroom",
                 chance = 1.0,
             },
@@ -237,29 +237,29 @@ ns.pigments = {
         name = "Ruby Pigment",
         sources = {
             {
-                itemId = 142142,
+                itemId = 8838,
                 name = "Sungrass",
                 chance = 0.25,
             },
             {
-                itemId = 142141,
+                itemId = 8836,
                 name = [[Arthas' Tears]],
                 chance = 0.25,
             },
             {
-                itemId = 142140,
+                itemId = 8831,
                 name = "Purple Lotus",
                 chance = 0.25,
             },
             {
-                itemId = 142145,
+                itemId = 8846,
                 name = "Gromsblood",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
-                itemId = 142144,
+                itemId = 8845,
                 name = "Ghost Mushroom",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
                 itemId = 4625,
@@ -269,7 +269,7 @@ ns.pigments = {
             {
                 itemId = 8839,
                 name = "Blindweed",
-                chance = 0.5,
+                chance = 0.50,
             },
         }
     },
@@ -278,12 +278,12 @@ ns.pigments = {
         name = "Silvery Pigment",
         sources = {
             {
-                itemId = 176587,
+                itemId = 13466,
                 name = "Plaguebloom",
                 chance = 1.0,
             },
             {
-                itemId = 176586,
+                itemId = 13465,
                 name = "Mountain Silverage",
                 chance = 1.0,
             },
@@ -293,12 +293,12 @@ ns.pigments = {
                 chance = 1.0,
             },
             {
-                itemId = 176583,
+                itemId = 13464,
                 name = "Golden Sansam",
                 chance = 1.0,
             },
             {
-                itemId = 176584,
+                itemId = 13463,
                 name = "Dreamfoil",
                 chance = 1.0,
             },
@@ -309,27 +309,27 @@ ns.pigments = {
         name = "Sapphire Pigment",
         sources = {
             {
-                itemId = 176587,
+                itemId = 13466,
                 name = "Plaguebloom",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
-                itemId = 176586,
+                itemId = 13465,
                 name = "Mountain Silverage",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
                 itemId = 13467,
                 name = "Icecap",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
-                itemId = 176583,
+                itemId = 13464,
                 name = "Golden Sansam",
                 chance = 0.25,
             },
             {
-                itemId = 176584,
+                itemId = 13463,
                 name = "Dreamfoil",
                 chance = 0.25,
             },
@@ -340,12 +340,12 @@ ns.pigments = {
         name = "Nether Pigment",
         sources = {
             {
-                itemId = 181277,
+                itemId = 22789,
                 name = "Terocone",
                 chance = 1.0,
             },
             {
-                itemId = 181275,
+                itemId = 22787,
                 name = "Ragveil",
                 chance = 1.0,
             },
@@ -365,12 +365,12 @@ ns.pigments = {
                 chance = 1.0,
             },
             {
-                itemId = 181270,
+                itemId = 22785,
                 name = "Felweed",
                 chance = 1.0,
             },
             {
-                itemId = 181271,
+                itemId = 22786,
                 name = "Dreaming Glory",
                 chance = 1.0,
             },
@@ -386,44 +386,44 @@ ns.pigments = {
         name = "Ebon Pigment",
         sources = {
             {
-                itemId = 181277,
+                itemId = 22789,
                 name = "Terocone",
                 chance = 0.25,
             },
             {
-                itemId = 181275,
+                itemId = 22787,
                 name = "Ragveil",
                 chance = 0.25,
             },
             {
                 itemId = 22792,
                 name = "Nightmare Vine",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
                 itemId = 22791,
                 name = "Netherbloom",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
                 itemId = 22793,
                 name = "Mana Thistle",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
-                itemId = 181270,
+                itemId = 22785,
                 name = "Felweed",
                 chance = 0.25,
             },
             {
-                itemId = 181271,
+                itemId = 22786,
                 name = "Dreaming Glory",
                 chance = 0.25,
             },
             {
                 itemId = 22790,
                 name = "Ancient Lichen",
-                chance = 0.5,
+                chance = 0.50,
             },
         }
     },
@@ -432,27 +432,27 @@ ns.pigments = {
         name = "Azure Pigment",
         sources = {
             {
-                itemId = 190169,
+                itemId = 36904,
                 name = "Tiger Lily",
                 chance = 1.0,
             },
             {
-                itemId = 190170,
+                itemId = 36907,
                 name = [[Talandra's Rose]],
                 chance = 1.0,
             },
             {
-                itemId = 190171,
+                itemId = 36905,
                 name = "Lichbloom",
                 chance = 1.0,
             },
             {
-                itemId = 190172,
+                itemId = 36906,
                 name = "Icethorn",
                 chance = 1.0,
             },
             {
-                itemId = 189973,
+                itemId = 36901,
                 name = "Goldclover",
                 chance = 1.0,
             },
@@ -472,7 +472,7 @@ ns.pigments = {
                 chance = 1.0,
             },
             {
-                itemId = 191019,
+                itemId = 36903,
                 name = [[Adder's Tongue]],
                 chance = 1.0,
             },
@@ -483,27 +483,27 @@ ns.pigments = {
         name = "Icy Pigment",
         sources = {
             {
-                itemId = 190169,
+                itemId = 36904,
                 name = "Tiger Lily",
                 chance = 0.25,
             },
             {
-                itemId = 190170,
+                itemId = 36907,
                 name = [[Talandra's Rose]],
                 chance = 0.25,
             },
             {
-                itemId = 190171,
+                itemId = 36905,
                 name = "Lichbloom",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
-                itemId = 190172,
+                itemId = 36906,
                 name = "Icethorn",
-                chance = 0.5,
+                chance = 0.50,
             },
             {
-                itemId = 189973,
+                itemId = 36901,
                 name = "Goldclover",
                 chance = 0.25,
             },
@@ -523,9 +523,9 @@ ns.pigments = {
                 chance = 0.25,
             },
             {
-                itemId = 191019,
+                itemId = 36903,
                 name = [[Adder's Tongue]],
-                chance = 0.5,
+                chance = 0.50,
             },
         }
     },
@@ -539,6 +539,7 @@ ns.inks = {
             {
                 itemId = 39151,
                 quantidy = 1.0,
+                name = "Alabaster Pigment",
             }
         }
     },
@@ -549,6 +550,7 @@ ns.inks = {
             {
                 itemId = 39151,
                 quantidy = 2.0,
+                name = "Alabaster Pigment",
             }
         }
     },
@@ -559,16 +561,29 @@ ns.inks = {
             {
                 itemId = 39334,
                 quantidy = 2.0,
+                name = "Dusky Pigment",
             }
         }
     },
     {
-        itemId = 39338,
+        itemId = 43115,
+        name = [[Hunter's Ink]],
+        pigments = {
+            {
+                itemId = 43103,
+                quantidy = 2.0,
+                name = "Verdent Pigment",
+            }
+        }
+    },
+    {
+        itemId = 43116,
         name = [[Lion's Ink]],
         pigments = {
             {
-                itemId = 39334,
+                itemId = 39338,
                 quantidy = 2.0,
+                name = "Golden Pigment",
             }
         }
     },
@@ -579,6 +594,7 @@ ns.inks = {
             {
                 itemId = 43104,
                 quantidy = 1.0,
+                "Burnt Pigment",
             }
         }
     },
@@ -589,6 +605,7 @@ ns.inks = {
             {
                 itemId = 39339,
                 quantidy = 2.0,
+                name = "Emerald Pigment",
             }
         }
     },
@@ -599,6 +616,7 @@ ns.inks = {
             {
                 itemId = 43105,
                 quantidy = 1.0,
+                name = "Indigo Pigment",
             }
         }
     },
@@ -609,6 +627,7 @@ ns.inks = {
             {
                 itemId = 39340,
                 quantidy = 2.0,
+                name = "Violet Pigment",
             }
         }
     },
@@ -619,6 +638,7 @@ ns.inks = {
             {
                 itemId = 43106,
                 quantidy = 1.0,
+                name = "Ruby Pigment",
             }
         }
     },
@@ -629,6 +649,7 @@ ns.inks = {
             {
                 itemId = 39341,
                 quantidy = 2.0,
+                name = "Silvery Pigment",
             }
         }
     },
@@ -639,6 +660,7 @@ ns.inks = {
             {
                 itemId = 43107,
                 quantidy = 1.0,
+                name = "Sapphire Pigment",
             }
         }
     },
@@ -649,6 +671,7 @@ ns.inks = {
             {
                 itemId = 39942,
                 quantidy = 2.0,
+                name = "Nether Pigment",
             }
         }
     },
@@ -659,6 +682,7 @@ ns.inks = {
             {
                 itemId = 43108,
                 quantidy = 1.0,
+                name = "Ebon Pigment",
             }
         }
     },
@@ -667,8 +691,9 @@ ns.inks = {
         name = "Ink of the Sea",
         pigments = {
             {
-                itemId = 39943,
+                itemId = 39343,
                 quantidy = 2.0,
+                name = "Azure Pigment",
             }
         }
     },
@@ -679,6 +704,7 @@ ns.inks = {
             {
                 itemId = 43109,
                 quantidy = 2.0,
+                name = "Icy Pigment",
             }
         }
     },

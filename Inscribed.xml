@@ -54,9 +54,6 @@
                 </KeyValues>
             </Frame>
 
-
-
-
             <Frame parentKey="listview" inherits="InscribedListviewTemplate">
                 <Size x="250" y="350"/>
                 <Anchors>
@@ -69,67 +66,44 @@
                 </KeyValues>
             </Frame>
 
-            <!-- <Frame parentKey="guideListview" inherits="InscribedListviewTemplate" parentArray="listviews" hidden="true">
-                <Size x="250" y="350"/>
-                <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="300" y="4"/>
-                </Anchors>
-                <KeyValues>
-                    <KeyValue key="frameType" value="FRAME" type="string"/>
-                    <KeyValue key="itemTemplate" value="InscribedListviewBasicIconTextTemplate" type="string"/>
-                    <KeyValue key="elementHeight" value="30" type="number"/>
-                    <KeyValue key="childContent" value="guideContent" type="string"/>
-                </KeyValues>
-            </Frame>
-
-            <Frame parentKey="pigmentListview" inherits="InscribedListviewTemplate" parentArray="listviews" hidden="true">
-                <Size x="250" y="350"/>
-                <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="300" y="4"/>
-                </Anchors>
-                <KeyValues>
-                    <KeyValue key="frameType" value="FRAME" type="string"/>
-                    <KeyValue key="itemTemplate" value="InscribedListviewBasicIconTextTemplate" type="string"/>
-                    <KeyValue key="elementHeight" value="40" type="number"/>
-                    <KeyValue key="childContent" value="pigmentsContent" type="string"/>
-                </KeyValues>
-            </Frame>
-
-            <Frame parentKey="inksListview" inherits="InscribedListviewTemplate" parentArray="listviews" hidden="true">
-                <Size x="250" y="350"/>
-                <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="300" y="4"/>
-                </Anchors>
-                <KeyValues>
-                    <KeyValue key="frameType" value="FRAME" type="string"/>
-                    <KeyValue key="itemTemplate" value="InscribedListviewBasicIconTextTemplate" type="string"/>
-                    <KeyValue key="elementHeight" value="40" type="number"/>
-                    <KeyValue key="childContent" value="inksContent" type="string"/>
-                </KeyValues>
-            </Frame> -->
-
-
             <Frame parentKey="content">
                 <Size x="290" y="350"/>
                 <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="4"/>
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-6" y="4"/>
                 </Anchors>
                 <Layers>
                     <Layer level="OVERLAY">
-                        <FontString parentKey="title" inherits="GameFontNormal" parentArray="texts">
+                        <FontString parentKey="title" inherits="GameFontNormalLarge" parentArray="texts">
+                            <Size x="280" y="20"/>
                             <Anchors>
                                 <Anchor point="TOP" x="0" y="-4"/>
                             </Anchors>
                         </FontString>
+                        <FontString parentKey="notes" inherits="GameFontNormal" parentArray="texts" justifyV="TOP">
+                            <Color r="1" g="1" b="1"/>
+                            <Size x="280" y="50"/>
+                            <Anchors>
+                                <Anchor point="TOP" relativeKey="$parent.title" relativePoint="BOTTOM" x="0" y="-10"/>
+                            </Anchors>
+                        </FontString>
                     </Layer>
                 </Layers>
+                <Frames>
+                    <Frame parentKey="pigmentSources">
+                        <Size x="280"/>
+                        <Anchors>
+                            <Anchor point="TOP" relativeKey="$parent.title" relativePoint="BOTTOM" x="0" y="-40"/>
+                        </Anchors>
+                    </Frame>
+                    <Frame parentKey="inkMaterials">
+                        <Size x="280"/>
+                        <Anchors>
+                            <Anchor point="TOP" relativeKey="$parent.title" relativePoint="BOTTOM" x="0" y="-40"/>
+                        </Anchors>
+                    </Frame>
+                </Frames>
             </Frame>
-            <!-- <Frame parentKey="guideContent" inherits="InscribedGuideTemplate" parentArray="listviewChildContent" hidden="true">
-                <Size x="290" y="350"/>
-                <Anchors>
-                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="4"/>
-                </Anchors>
-            </Frame> -->
+
 
         </Frames>
 
