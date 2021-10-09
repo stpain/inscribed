@@ -55,7 +55,7 @@
             </Frame>
 
             <Frame parentKey="listview" inherits="InscribedListviewTemplate">
-                <Size x="250" y="350"/>
+                <Size x="250" y="380"/>
                 <Anchors>
                     <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="300" y="4"/>
                 </Anchors>
@@ -63,11 +63,12 @@
                     <KeyValue key="frameType" value="FRAME" type="string"/>
                     <KeyValue key="itemTemplate" value="InscribedListviewBasicIconTextTemplate" type="string"/>
                     <KeyValue key="elementHeight" value="30" type="number"/>
+                    <KeyValue key="isSelectable" value="true" type="boolean"/>
                 </KeyValues>
             </Frame>
 
             <Frame parentKey="content">
-                <Size x="290" y="350"/>
+                <Size x="290" y="380"/>
                 <Anchors>
                     <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-6" y="4"/>
                 </Anchors>
@@ -99,6 +100,38 @@
                         <Size x="280"/>
                         <Anchors>
                             <Anchor point="TOP" relativeKey="$parent.title" relativePoint="BOTTOM" x="0" y="-40"/>
+                        </Anchors>
+                    </Frame>
+                    <Frame parentKey="stepMaterials">
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString parentKey="title" inherits="GameFontNormal">
+                                    <Size x="280" y="20"/>
+                                    <Anchors>
+                                        <Anchor point="TOP" x="0" y="20"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        <Size x="280"/>
+                        <Anchors>
+                            <Anchor point="TOP" relativeKey="$parent.notes" relativePoint="BOTTOM" x="0" y="-10"/>
+                        </Anchors>
+                    </Frame>
+                    <Frame parentKey="stepCreates">
+                        <Layers>
+                            <Layer level="OVERLAY">
+                                <FontString parentKey="title" inherits="GameFontNormal">
+                                    <Size x="280" y="20"/>
+                                    <Anchors>
+                                        <Anchor point="TOP" x="0" y="20"/>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                        <Size x="280"/>
+                        <Anchors>
+                            <Anchor point="TOP" relativeKey="$parent.stepMaterials" relativePoint="BOTTOM" x="0" y="-40"/>
                         </Anchors>
                     </Frame>
                 </Frames>

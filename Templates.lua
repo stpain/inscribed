@@ -260,16 +260,16 @@ end
 
 
 
-InscribedPigmentSourceTemplateMixin = {}
+InscribedSourceTemplateMixin = {}
 
-function InscribedPigmentSourceTemplateMixin:ClearPigmentSource()
+function InscribedSourceTemplateMixin:ClearSource()
     self.icon:SetTexture(nil)
     self.name:SetText(nil)
     self.chance:SetText(nil)
     self:Hide()
 end
 
-function InscribedPigmentSourceTemplateMixin:SetPigmentSource(source)
+function InscribedSourceTemplateMixin:SetSource(source)
     if type(source) == "table" then
         if type(source.itemId) == "number" then
             local _, _, _, _, icon = GetItemInfoInstant(source.itemId)
@@ -302,16 +302,58 @@ function InscribedPigmentSourceTemplateMixin:SetPigmentSource(source)
 end
 
 
-InscribedInkMaterialsTemplateMixin = {}
+InscribedMaterialsTemplateMixin = {}
 
-function InscribedInkMaterialsTemplateMixin:ClearInkMaterials()
+function InscribedMaterialsTemplateMixin:ClearMaterials()
     self.icon:SetTexture(nil)
     self.name:SetText(nil)
     self.quantidy:SetText(nil)
     self:Hide()
 end
 
-function InscribedInkMaterialsTemplateMixin:SetInkMaterials(source)
+function InscribedMaterialsTemplateMixin:SetMaterials(source)
+    if type(source) == "table" then
+        if type(source.itemId) == "number" then
+            local _, _, _, _, icon = GetItemInfoInstant(source.itemId)
+            if type(icon) == "number" then
+                self.icon:SetTexture(icon)
+            else
+                --error("icon value returned from GetItemInfoInstant is not of type number")
+                self.icon:SetTexture(nil)
+            end
+        end
+        if type(source.name) == "string" then
+            self.name:SetText(source.name)
+        else
+            self.name:SetText(nil)
+            --error("source name is not of type string")
+        end
+        if type(source.quantidy) == "number" then
+            self.quantidy:SetText(string.format("%.2f", source.quantidy))
+        else
+            self.quantidy:SetText(nil)
+            --error("source quantidy is not of type string")
+        end
+        self:Show()
+    else
+        self.icon:SetTexture(nil)
+        self.name:SetText(nil)
+        self.quantidy:SetText(nil)
+        self:Hide()
+    end
+end
+
+
+InscribedCreatesTemplateMixin = {}
+
+function InscribedCreatesTemplateMixin:ClearItem()
+    self.icon:SetTexture(nil)
+    self.name:SetText(nil)
+    self.quantidy:SetText(nil)
+    self:Hide()
+end
+
+function InscribedCreatesTemplateMixin:SetItem(source)
     if type(source) == "table" then
         if type(source.itemId) == "number" then
             local _, _, _, _, icon = GetItemInfoInstant(source.itemId)

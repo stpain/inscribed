@@ -1766,7 +1766,7 @@ ns.guide = {
                 quantidy = 2,
             },
         },
-        creates = minorInscriptionResearch,
+        creates = ns.minorInscriptionResearch,
     },
     {
         step = 7,
