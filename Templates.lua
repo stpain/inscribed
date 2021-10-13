@@ -10,13 +10,24 @@ InscribedSmallHighlightButtonMixin = {}
 
 function InscribedSmallHighlightButtonMixin:OnLoad()
     if self.iconFileId then
-        local fileId = self.iconFileId
-        self.icon:SetTexture(fileId)
+        self.icon:SetTexture(self.iconFileId)
+    elseif self.atlas then
+        self.icon:SetAtlas(self.atlas)
+    end
+
+    if self.highlightAtlas then
+        self.highlight:SetAtlas(self.highlightAtlas)
+    end
+
+    if self.rotate then
+        self.icon:SetRotation(self.rotate)
     end
 end
 
 function InscribedSmallHighlightButtonMixin:OnShow()
-
+    if self.hideBorder then
+        self.iconBorder:Hide()
+    end
 end
 
 function InscribedSmallHighlightButtonMixin:OnMouseDown()
@@ -100,32 +111,32 @@ function InscribedListviewMixin:OnLoad()
     self:RegisterCallback("OnDataTableChanged", self.OnDataTableChanged, self)
 
     self.DataProvider = CreateDataProvider();
-    self.ScrollView = CreateScrollBoxListLinearView();
-    self.ScrollView:SetDataProvider(self.DataProvider);
+    self.scrollView = CreateScrollBoxListLinearView();
+    self.scrollView:SetDataProvider(self.DataProvider);
 
     ---height is defined in the xml keyValues
     local height = self.elementHeight;
-    self.ScrollView:SetElementExtent(height);
+    self.scrollView:SetElementExtent(height);
 
-    self.ScrollView:SetElementInitializer(self.frameType, self.itemTemplate, GenerateClosure(self.OnElementInitialize, self));
-    self.ScrollView:SetElementResetter(GenerateClosure(self.OnElementReset, self));
+    self.scrollView:SetElementInitializer(self.frameType, self.itemTemplate, GenerateClosure(self.OnElementInitialize, self));
+    self.scrollView:SetElementResetter(GenerateClosure(self.OnElementReset, self));
 
-    self.selectionBehavior = ScrollUtil.AddSelectionBehavior(self.ScrollView);
+    self.selectionBehavior = ScrollUtil.AddSelectionBehavior(self.scrollView);
     self.selectionBehavior:RegisterCallback("OnSelectionChanged", self.OnElementSelectionChanged, self);
 
-    self.ScrollView:SetPadding(5, 5, 5, 5, 1);
+    self.scrollView:SetPadding(5, 5, 5, 5, 1);
 
-    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, self.ScrollView);
+    ScrollUtil.InitScrollBoxListWithScrollBar(self.scrollBox, self.scrollBar, self.scrollView);
 
     local anchorsWithBar = {
         CreateAnchor("TOPLEFT", self, "TOPLEFT", 4, -4),
-        CreateAnchor("BOTTOMRIGHT", self.ScrollBar, "BOTTOMLEFT", 0, 4),
+        CreateAnchor("BOTTOMRIGHT", self.scrollBar, "BOTTOMLEFT", 0, 4),
     };
     local anchorsWithoutBar = {
         CreateAnchor("TOPLEFT", self, "TOPLEFT", 4, -4),
         CreateAnchor("BOTTOMRIGHT", self, "BOTTOMRIGHT", -4, 4),
     };
-    ScrollUtil.AddManagedScrollBarVisibilityBehavior(self.ScrollBox, self.ScrollBar, anchorsWithBar, anchorsWithoutBar);
+    ScrollUtil.AddManagedScrollBarVisibilityBehavior(self.scrollBox, self.scrollBar, anchorsWithBar, anchorsWithoutBar);
 end
 
 function InscribedListviewMixin:OnElementInitialize(element, elementData, isNew)
@@ -150,7 +161,6 @@ end
 function InscribedListviewMixin:OnDataTableChanged(newTable)
     for k, elementData in ipairs(newTable) do
         if elementData.selected then
-            local element = self.ScrollView:FindFrame(elementData);
             self:OnElementSelectionChanged(elementData, true)
         end
     end
@@ -159,7 +169,7 @@ end
 function InscribedListviewMixin:OnElementSelectionChanged(elementData, selected)
     --DevTools_Dump({ self.selectionBehavior:GetSelectedElementData() })
 
-    local element = self.ScrollView:FindFrame(elementData);
+    local element = self.scrollView:FindFrame(elementData);
 
     if element then
         element:SetSelected(selected);
@@ -172,6 +182,39 @@ end
 
 
 
+
+
+
+
+
+
+
+local ContentFrameMixin = CreateFromMixins(ResizeLayoutMixin);
+
+InscribedScrollableFrameTemplateMixin = {}
+
+function InscribedScrollableFrameTemplateMixin:OnLoad()
+
+    self.scrollBox:FullUpdate(ScrollBoxConstants.UpdateQueued);
+
+    self.scrollView = CreateScrollBoxLinearView();
+    self.scrollView:SetPanExtent(50);
+
+
+    self.contentFrame = CreateFrame("Frame", nil, self.scrollBox, "ResizeLayoutFrame");
+    self.contentFrame.scrollable = true;
+    --self.contentFrame:OnLoad();
+    self.contentFrame:SetPoint("TOPLEFT", self.scrollBox);
+    self.contentFrame:SetPoint("TOPRIGHT", self.scrollBox);
+    self.contentFrame:SetScript("OnSizeChanged", GenerateClosure(self.OnContentSizeChanged, self));
+
+    ScrollUtil.InitScrollBoxWithScrollBar(self.scrollBox, self.scrollBar, self.scrollView);
+
+end
+
+function InscribedScrollableFrameTemplateMixin:OnContentSizeChanged()
+    self.scrollBox:FullUpdate(ScrollBoxConstants.UpdateImmediately);
+end
 
 
 
@@ -237,7 +280,7 @@ function InscribedListviewItemTemplateMixin:SetDataBinding(binding, height)
     elseif binding.title then
         self.text:SetText(binding.title)
     else
-        error("binding.text and binding.name and binding.title are nil")
+        --error("binding.text and binding.name and binding.title are nil")
     end
 
     if type(binding.itemId) == "number" then
@@ -259,130 +302,92 @@ end
 
 
 
+InscribedSecureMacroTemplateMixin = {}
 
-InscribedSourceTemplateMixin = {}
+function InscribedSecureMacroTemplateMixin:OnEnter()
+    if self.tooltipText then
+        GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
+        if self.itemLink then
+            GameTooltip:SetHyperlink(self.itemLink)
+        end
+        GameTooltip:AddLine(" ")
+        GameTooltip:AddLine("|cff3399FF"..self.tooltipText)
+        GameTooltip:Show()
+    end
+end
 
-function InscribedSourceTemplateMixin:ClearSource()
+function InscribedSecureMacroTemplateMixin:OnLeave()
+    GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
+end
+
+function InscribedSecureMacroTemplateMixin:OnMouseDown()
+    if IsShiftKeyDown() then
+        if self.itemLink then
+            HandleModifiedItemClick(self.itemLink)
+        end
+    end
+end
+
+function InscribedSecureMacroTemplateMixin:ClearItem()
     self.icon:SetTexture(nil)
     self.name:SetText(nil)
     self.chance:SetText(nil)
+    self.quantidy:SetText(nil)
+    self.itemLink = nil;
     self:Hide()
 end
 
-function InscribedSourceTemplateMixin:SetSource(source)
+---set the item binding
+---@param source table the item data to bind, must have at least a `t.itemId` entry
+function InscribedSecureMacroTemplateMixin:SetItem(source)
     if type(source) == "table" then
         if type(source.itemId) == "number" then
-            local _, _, _, _, icon = GetItemInfoInstant(source.itemId)
-            if type(icon) == "number" then
-                self.icon:SetTexture(icon)
+            local item = Item:CreateFromItemID(source.itemId)
+            local _, _, _, _, _, classID, subclassID = GetItemInfoInstant(source.itemId)
+            if item:IsItemEmpty() then
+                self.name:SetText(source.name)
             else
-                --error("icon value returned from GetItemInfoInstant is not of type number")
-                self.icon:SetTexture(nil)
+                item:ContinueOnItemLoad(function()
+
+                    self.itemLink = item:GetItemLink()
+
+                    local icon = item:GetItemIcon()
+                    self.icon:SetTexture(icon)
+                    local name = item:GetItemName()
+                    self.name:SetText(name)
+
+                    ---if we have a herb item set up the milling macro for right click
+                    if classID == 7 and subclassID == 9 and name then
+                        local macro = string.format([[
+/cast Milling
+/use %s
+                        ]], name)
+                        self:SetAttribute("macrotext2", [[/run print("hello")]])
+                        self.tooltipText = L["HERB_MILLING_TOOLTIP"]
+                    else
+                        self.tooltipText = nil;
+                    end
+                end)
             end
-        end
-        if type(source.name) == "string" then
-            self.name:SetText(source.name)
-        else
-            self.name:SetText(nil)
-            --error("source name is not of type string")
         end
         if type(source.chance) == "number" then
             self.chance:SetText(string.format("%.2f", source.chance))
         else
             self.chance:SetText(nil)
-            --error("source chance is not of type string")
         end
+        if type(source.quantidy) == "number" then
+            self.quantidy:SetText(source.quantidy)
+        else
+            self.quantidy:SetText(nil)
+        end
+        self.dataBinding = source;
         self:Show()
     else
         self.icon:SetTexture(nil)
         self.name:SetText(nil)
         self.chance:SetText(nil)
-        self:Hide()
-    end
-end
-
-
-InscribedMaterialsTemplateMixin = {}
-
-function InscribedMaterialsTemplateMixin:ClearMaterials()
-    self.icon:SetTexture(nil)
-    self.name:SetText(nil)
-    self.quantidy:SetText(nil)
-    self:Hide()
-end
-
-function InscribedMaterialsTemplateMixin:SetMaterials(source)
-    if type(source) == "table" then
-        if type(source.itemId) == "number" then
-            local _, _, _, _, icon = GetItemInfoInstant(source.itemId)
-            if type(icon) == "number" then
-                self.icon:SetTexture(icon)
-            else
-                --error("icon value returned from GetItemInfoInstant is not of type number")
-                self.icon:SetTexture(nil)
-            end
-        end
-        if type(source.name) == "string" then
-            self.name:SetText(source.name)
-        else
-            self.name:SetText(nil)
-            --error("source name is not of type string")
-        end
-        if type(source.quantidy) == "number" then
-            self.quantidy:SetText(string.format("%.2f", source.quantidy))
-        else
-            self.quantidy:SetText(nil)
-            --error("source quantidy is not of type string")
-        end
-        self:Show()
-    else
-        self.icon:SetTexture(nil)
-        self.name:SetText(nil)
         self.quantidy:SetText(nil)
         self:Hide()
     end
 end
-
-
-InscribedCreatesTemplateMixin = {}
-
-function InscribedCreatesTemplateMixin:ClearItem()
-    self.icon:SetTexture(nil)
-    self.name:SetText(nil)
-    self.quantidy:SetText(nil)
-    self:Hide()
-end
-
-function InscribedCreatesTemplateMixin:SetItem(source)
-    if type(source) == "table" then
-        if type(source.itemId) == "number" then
-            local _, _, _, _, icon = GetItemInfoInstant(source.itemId)
-            if type(icon) == "number" then
-                self.icon:SetTexture(icon)
-            else
-                --error("icon value returned from GetItemInfoInstant is not of type number")
-                self.icon:SetTexture(nil)
-            end
-        end
-        if type(source.name) == "string" then
-            self.name:SetText(source.name)
-        else
-            self.name:SetText(nil)
-            --error("source name is not of type string")
-        end
-        if type(source.quantidy) == "number" then
-            self.quantidy:SetText(string.format("%.2f", source.quantidy))
-        else
-            self.quantidy:SetText(nil)
-            --error("source quantidy is not of type string")
-        end
-        self:Show()
-    else
-        self.icon:SetTexture(nil)
-        self.name:SetText(nil)
-        self.quantidy:SetText(nil)
-        self:Hide()
-    end
-end
-
 

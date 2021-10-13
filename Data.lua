@@ -19,7 +19,7 @@ ns.pigments = {
                 chance = 1.0,
             },
             {
-                itemId = 765,
+                itemId = 2449,
                 name = "Earthroot",
                 chance = 1.0,
             },
@@ -144,7 +144,7 @@ ns.pigments = {
         name = "Emerald Pigment",
         sources = {
             {
-                itemId = 3358,
+                itemId = 3819,
                 name = "Wintersbite",
                 chance = 1.0,
             },
@@ -170,7 +170,7 @@ ns.pigments = {
         name = "Indigo Pigment",
         sources = {
             {
-                itemId = 3358,
+                itemId = 3819,
                 name = "Wintersbite",
                 chance = 0.50,
             },
@@ -305,7 +305,7 @@ ns.pigments = {
         }
     },
     {
-        itemId = 39341,
+        itemId = 43107,
         name = "Sapphire Pigment",
         sources = {
             {
@@ -479,7 +479,7 @@ ns.pigments = {
         }
     },
     {
-        itemId = 39343,
+        itemId = 43109,
         name = "Icy Pigment",
         sources = {
             {
@@ -594,7 +594,7 @@ ns.inks = {
             {
                 itemId = 43104,
                 quantidy = 1.0,
-                "Burnt Pigment",
+                name = "Burnt Pigment",
             }
         }
     },
@@ -669,7 +669,7 @@ ns.inks = {
         name = "Ethereal Ink",
         pigments = {
             {
-                itemId = 39942,
+                itemId = 39342,
                 quantidy = 2.0,
                 name = "Nether Pigment",
             }
@@ -1666,6 +1666,7 @@ ns.guide = {
                 itemId = 39151,
                 name = "Alabaster Pigment",
                 quantidy = 17,
+                dbName = "pigments",
             },
         },
         creates = {
@@ -1673,6 +1674,7 @@ ns.guide = {
                 itemId = 37101,
                 name = "Ivory Ink",
                 quantidy = 17,
+                dbName = "inks",
             },
         },
     },
@@ -1687,6 +1689,13 @@ ns.guide = {
                 itemId = 37101,
                 name = "Ivory Ink",
                 quantidy = 17,
+                dbName = "inks",
+            },
+            {
+                itemId = 39354,
+                name = "Light Parchment",
+                quantidy = 17,
+                dbName = "materials",
             },
         },
         creates = {
@@ -1708,6 +1717,7 @@ ns.guide = {
                 itemId = 39151,
                 name = "Alabaster Pigment",
                 quantidy = 50,
+                dbName = "pigments",
             },
         },
         creates = {
@@ -1715,6 +1725,7 @@ ns.guide = {
                 itemId = 39469,
                 name = "Moonglow Ink",
                 quantidy = 25,
+                dbName = "inks",
             },
         },
     },
@@ -1729,6 +1740,7 @@ ns.guide = {
                 itemId = 39469,
                 name = "Moonglow Ink",
                 quantidy = 20,
+                dbName = "inks",
             },
         },
         creates = {
@@ -1759,14 +1771,16 @@ ns.guide = {
                 itemId = 39469,
                 name = "Moonglow Ink",
                 quantidy = 1,
+                dbName = "inks",
             },
             {
-                itemId = 39469,
+                itemId = 39354,
                 name = "Light Parchment",
                 quantidy = 2,
+                dbName = "materials",
             },
         },
-        creates = ns.minorInscriptionResearch,
+        creates = nil,
     },
     {
         step = 7,
@@ -1779,6 +1793,7 @@ ns.guide = {
                 itemId = 39334,
                 name = "Dusky Pigment",
                 quantidy = 50,
+                dbName = "pigments",
             },
         },
         creates = {
@@ -1786,6 +1801,7 @@ ns.guide = {
                 itemId = 39774,
                 name = "Midnight Ink",
                 quantidy = 25,
+                dbName = "inks",
             },
         },
     },
@@ -1800,11 +1816,13 @@ ns.guide = {
                 itemId = 39774,
                 name = "Midnight Ink",
                 quantidy = 25,
+                dbName = "inks",
             },
             {
                 itemId = 39354,
                 name = "Light Parchment",
                 quantidy = 25,
+                dbName = "materials",
             },
         },
         creates = nil, -- do i add the glyphs?
@@ -1820,6 +1838,7 @@ ns.guide = {
                 itemId = 39338,
                 name = "Golden Pigment",
                 quantidy = 120,
+                dbName = "pigments",
             },
         },
         creates = {
@@ -1827,6 +1846,7 @@ ns.guide = {
                 itemId = 43116,
                 name = [[Lion's Ink]],
                 quantidy = 60,
+                dbName = "inks",
             }
         },
     },
@@ -1835,22 +1855,25 @@ ns.guide = {
         start = 106,
         finish = 125,
         title = "Glyphs",
-        notes = [[Use Lion's Ink to create glyphs up to 125. At about 110 the parchment changes to Common Parchment and at 120 the ink cost doubles for some glyphs, the quantities given are approximate]],
+        notes = [[Use Lion's Ink to create glyphs up to 125. |cff3399FFAt about 110 the parchment changes to Common Parchment and at 120 the ink cost doubles|r for some glyphs, the quantities given are approximate]],
         materials = {
             {
                 itemId = 43116,
                 name = [[Lion's Ink]],
                 quantidy = 25,
+                dbName = "inks",
             },
             {
                 itemId = 39354,
                 name = "Light Parchment",
                 quantidy = 5,
+                dbName = "materials",
             },
             {
                 itemId = 10648,
                 name = "Common Parchment",
                 quantidy = 15,
+                dbName = "materials",
             },
         },
         creates = nil,
@@ -1875,6 +1898,7 @@ ns.guide = {
                 itemId = 43104,
                 name = "Burnt Pigment",
                 quantidy = 16,
+                dbName = "pigments",
             },
         },
         creates = {
@@ -1882,6 +1906,7 @@ ns.guide = {
                 itemId = 43117,
                 name = "Dawnstar Ink",
                 quantidy = 16,
+                dbName = "inks",
             },
         },
     },
@@ -1896,11 +1921,13 @@ ns.guide = {
                 itemId = 43116,
                 name = [[Lion's Ink]],
                 quantidy = 8,
+                dbName = "inks",
             },
             {
                 itemId = 43117,
                 name = "Dawnstar Ink",
                 quantidy = 16,
+                dbName = "inks",
             },
             {
                 itemId = 10648,
@@ -1927,6 +1954,7 @@ ns.guide = {
                 itemId = 43116,
                 name = [[Lion's Ink]],
                 quantidy = 9,
+                dbName = "inks",
             },
             {
                 itemId = 10648,
@@ -1947,6 +1975,7 @@ ns.guide = {
                 itemId = 39339,
                 name = "Emerald Pigment",
                 quantidy = 40,
+                dbName = "pigments",
             },
         },
         creates = {
@@ -1954,6 +1983,7 @@ ns.guide = {
                 itemId = 43118,
                 name = "Jadefire Ink",
                 quantidy = 20,
+                dbName = "inks",
             },
         },
     },
@@ -1968,6 +1998,7 @@ ns.guide = {
                 itemId = 43118,
                 name = "Jadefire Ink",
                 quantidy = 20,
+                dbName = "inks",
             },
             {
                 itemId = 10648,

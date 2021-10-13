@@ -4,7 +4,7 @@
     <Frame name="InscribedSmallHighlightButton" mixin="InscribedSmallHighlightButtonMixin" virtual="true" enableMouse="true">
         <Layers>
             <Layer level="HIGHLIGHT">
-                <Texture atlas="transmog-frame-pink">
+                <Texture parentKey="highlight" atlas="transmog-frame-pink">
                     <Anchors>
                         <Anchor point="TOPLEFT" x="-4" y="4"/>
                         <Anchor point="BOTTOMRIGHT" x="4" y="-4"/>
@@ -12,7 +12,7 @@
                 </Texture>
             </Layer>
             <Layer level="BACKGROUND" textureSubLevel="-1">
-                <Texture parentKey="icon" setAllPoints="true">
+                <Texture parentKey="iconBorder" setAllPoints="true">
                     <Color r="0" g="0" b="0"/>
                     <Anchors>
                         <Anchor point="TOPLEFT" x="0" y="0"/>
@@ -43,13 +43,34 @@
 
     <Frame name="InscribedListviewTemplate" mixin="InscribedListviewMixin" virtual="true">
         <Frames>
-            <Frame parentKey="ScrollBox" inherits="WowScrollBoxList"/>
-            <EventFrame parentKey="ScrollBar" inherits="WowTrimScrollBar">
+            <Frame parentKey="scrollBox" inherits="WowScrollBoxList"/>
+            <EventFrame parentKey="scrollBar" inherits="WowTrimScrollBar">
                 <Anchors>
                     <Anchor point="TOPRIGHT"/>
                     <Anchor point="BOTTOMRIGHT"/>
                 </Anchors>
             </EventFrame>
+        </Frames>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+        </Scripts>
+    </Frame>
+
+
+    <Frame name="InscribedScrollableFrameTemplate" mixin="InscribedScrollableFrameTemplateMixin" virtual="true">
+        <Frames>
+            <EventFrame parentKey="scrollBar" inherits="WowTrimScrollBar">
+                <Anchors>
+                    <Anchor point="TOPRIGHT"/>
+                    <Anchor point="BOTTOMRIGHT" x="-2" y="0"/>
+                </Anchors>
+            </EventFrame>
+            <Frame parentKey="scrollBox" inherits="WowScrollBox">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT" relativeKey="$parent.scrollBar" relativePoint="BOTTOMLEFT"/>
+                </Anchors>
+            </Frame>
         </Frames>
         <Scripts>
             <OnLoad method="OnLoad"/>
@@ -93,13 +114,24 @@
     </Frame>
 
 
-    <Frame name="InscribedSourceTemplate" mixin="InscribedSourceTemplateMixin" enableMouse="true" virtual="true">
+    <Button name="InscribedSecureMacroTemplate" mixin="InscribedSecureMacroTemplateMixin" inherits="InsecureActionButtonTemplate" enableMouse="true" registerForClicks="LeftButtonUp,RightButtonUp" virtual="true">
+        <Attributes>
+            <Attribute name="type2" value="macro"/>
+        </Attributes>
         <Layers>
             <Layer level="BACKGROUND" textureSubLevel="-1">
                 <Texture parentKey="iconBorder">
                     <Color r="0" g="0" b="0"/>
                     <Anchors>
                         <Anchor point="LEFT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="HIGHLIGHT">
+                <Texture parentKey="highlight" atlas="search-highlight-large">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="0" y="0"/>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
                     </Anchors>
                 </Texture>
             </Layer>
@@ -112,47 +144,21 @@
                 </Texture>
             </Layer>
             <Layer level="OVERLAY">
-                <FontString parentKey="name" inherits="GameFontNormal" parentArray="texts">
+                <FontString parentKey="name" inherits="GameFontNormal">
+                    <Color r="1" g="1" b="1"/>
                     <Anchors>
                         <Anchor point="LEFT" relativeKey="$parent.icon" relativePoint="RIGHT" x="8" y="0"/>
                     </Anchors>
                 </FontString>
-                <FontString parentKey="chance" inherits="GameFontNormal" parentArray="texts" justifyH="LEFT">
+                <FontString parentKey="chance" inherits="GameFontNormal" justifyH="LEFT">
+                    <Color r="1" g="1" b="1"/>
                     <Size x="30"/>
                     <Anchors>
                         <Anchor point="RIGHT" x="-4" y="0"/>
                     </Anchors>
                 </FontString>
-            </Layer>
-        </Layers>
-    </Frame>
-
-
-    <Frame name="InscribedMaterialsTemplate" mixin="InscribedMaterialsTemplateMixin" enableMouse="true" virtual="true">
-        <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="-1">
-                <Texture parentKey="iconBorder">
-                    <Color r="0" g="0" b="0"/>
-                    <Anchors>
-                        <Anchor point="LEFT" x="0" y="0"/>
-                    </Anchors>
-                </Texture>
-            </Layer>
-            <Layer level="ARTWORK">
-                <Texture parentKey="icon">
-                    <TexCoords left="0.1" right="0.9" top="0.1" bottom="0.9"/>
-                    <Anchors>
-                        <Anchor point="LEFT" x="1" y="0"/>
-                    </Anchors>
-                </Texture>
-            </Layer>
-            <Layer level="OVERLAY">
-                <FontString parentKey="name" inherits="GameFontNormal" parentArray="texts">
-                    <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.icon" relativePoint="RIGHT" x="8" y="0"/>
-                    </Anchors>
-                </FontString>
-                <FontString parentKey="quantidy" inherits="GameFontNormal" parentArray="texts" justifyH="LEFT">
+                <FontString parentKey="quantidy" inherits="GameFontNormal" justifyH="LEFT">
+                    <Color r="1" g="1" b="1"/>
                     <Size x="50"/>
                     <Anchors>
                         <Anchor point="RIGHT" x="-4" y="0"/>
@@ -160,41 +166,11 @@
                 </FontString>
             </Layer>
         </Layers>
-    </Frame>
-
-
-    <Frame name="InscribedCreatesTemplate" mixin="InscribedCreatesTemplateMixin" enableMouse="true" virtual="true">
-        <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="-1">
-                <Texture parentKey="iconBorder">
-                    <Color r="0" g="0" b="0"/>
-                    <Anchors>
-                        <Anchor point="LEFT" x="0" y="0"/>
-                    </Anchors>
-                </Texture>
-            </Layer>
-            <Layer level="ARTWORK">
-                <Texture parentKey="icon">
-                    <TexCoords left="0.1" right="0.9" top="0.1" bottom="0.9"/>
-                    <Anchors>
-                        <Anchor point="LEFT" x="1" y="0"/>
-                    </Anchors>
-                </Texture>
-            </Layer>
-            <Layer level="OVERLAY">
-                <FontString parentKey="name" inherits="GameFontNormal" parentArray="texts">
-                    <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.icon" relativePoint="RIGHT" x="8" y="0"/>
-                    </Anchors>
-                </FontString>
-                <FontString parentKey="quantidy" inherits="GameFontNormal" parentArray="texts" justifyH="LEFT">
-                    <Size x="50"/>
-                    <Anchors>
-                        <Anchor point="RIGHT" x="-4" y="0"/>
-                    </Anchors>
-                </FontString>
-            </Layer>
-        </Layers>
-    </Frame>
+        <Scripts>
+            <OnEnter method="OnEnter"/>
+            <OnLeave method="OnLeave"/>
+            <OnMouseDown method="OnMouseDown"/>
+        </Scripts>
+    </Button>
 
 </UI>
