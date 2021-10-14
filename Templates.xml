@@ -11,12 +11,20 @@
                     </Anchors>
                 </Texture>
             </Layer>
-            <Layer level="BACKGROUND" textureSubLevel="-1">
+            <Layer level="BACKGROUND" textureSubLevel="-2">
                 <Texture parentKey="iconBorder" setAllPoints="true">
                     <Color r="0" g="0" b="0"/>
                     <Anchors>
                         <Anchor point="TOPLEFT" x="0" y="0"/>
                         <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BACKGROUND" textureSubLevel="-1">
+                <Texture parentKey="selected" atlas="Capacitance-General-WorkOrderActive" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-10" y="10"/>
+                        <Anchor point="BOTTOMRIGHT" x="10" y="-10"/>
                     </Anchors>
                 </Texture>
             </Layer>
@@ -167,6 +175,7 @@
             </Layer>
         </Layers>
         <Scripts>
+            <OnLoad method="OnLoad"/>
             <OnEnter method="OnEnter"/>
             <OnLeave method="OnLeave"/>
             <OnMouseDown method="OnMouseDown"/>

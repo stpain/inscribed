@@ -23,7 +23,7 @@
         </Layers>
 
         <Frames>
-            <Frame parentKey="guide" inherits="InscribedSmallHighlightButton">
+            <Frame parentKey="guide" inherits="InscribedSmallHighlightButton" parentArray="menuButtons">
                 <Size x="40" y="40"/>
                 <Anchors>
                     <Anchor point="TOPLEFT" x="10" y="-70"/>
@@ -33,7 +33,7 @@
                     <KeyValue key="tooltipText" value="LEVELING_GUIDE" type="string"/>
                 </KeyValues>
             </Frame>
-            <Frame parentKey="pigments" inherits="InscribedSmallHighlightButton">
+            <Frame parentKey="pigments" inherits="InscribedSmallHighlightButton" parentArray="menuButtons">
                 <Size x="40" y="40"/>
                 <Anchors>
                     <Anchor point="TOPLEFT" x="10" y="-115"/>
@@ -43,7 +43,7 @@
                     <KeyValue key="tooltipText" value="PIGMENTS" type="string"/>
                 </KeyValues>
             </Frame>
-            <Frame parentKey="inks" inherits="InscribedSmallHighlightButton">
+            <Frame parentKey="inks" inherits="InscribedSmallHighlightButton" parentArray="menuButtons">
                 <Size x="40" y="40"/>
                 <Anchors>
                     <Anchor point="TOPLEFT" x="10" y="-160"/>
@@ -53,7 +53,7 @@
                     <KeyValue key="tooltipText" value="INKS" type="string"/>
                 </KeyValues>
             </Frame>
-            <Frame parentKey="minorResearch" inherits="InscribedSmallHighlightButton">
+            <Frame parentKey="minorResearch" inherits="InscribedSmallHighlightButton" parentArray="menuButtons">
                 <Size x="40" y="40"/>
                 <Anchors>
                     <Anchor point="TOPLEFT" x="10" y="-205"/>
@@ -63,7 +63,7 @@
                     <KeyValue key="tooltipText" value="MINOR_RESEARCH" type="string"/>
                 </KeyValues>
             </Frame>
-            <Frame parentKey="northrendResearch" inherits="InscribedSmallHighlightButton">
+            <Frame parentKey="northrendResearch" inherits="InscribedSmallHighlightButton" parentArray="menuButtons">
                 <Size x="40" y="40"/>
                 <Anchors>
                     <Anchor point="TOPLEFT" x="10" y="-250"/>
@@ -71,6 +71,16 @@
                 <KeyValues>
                     <KeyValue key="iconFileId" value="134331" type="number"/>
                     <KeyValue key="tooltipText" value="NORTHREND_RESEARCH" type="string"/>
+                </KeyValues>
+            </Frame>
+            <Frame parentKey="glyphs" inherits="InscribedSmallHighlightButton" parentArray="menuButtons">
+                <Size x="40" y="40"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="10" y="-295"/>
+                </Anchors>
+                <KeyValues>
+                    <KeyValue key="iconFileId" value="134331" type="number"/>
+                    <KeyValue key="tooltipText" value="GLYPHS" type="string"/>
                 </KeyValues>
             </Frame>
 

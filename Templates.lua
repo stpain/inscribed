@@ -302,16 +302,26 @@ end
 
 
 
-InscribedSecureMacroTemplateMixin = {}
+InscribedSecureMacroTemplateMixin = CreateFromMixins(CallbackRegistryMixin);
+InscribedSecureMacroTemplateMixin:GenerateCallbackEvents(
+    {
+        "OnInscribedSecureMacroTemplateClicked",
+    }
+);
+
+function InscribedSecureMacroTemplateMixin:OnLoad()
+    CallbackRegistryMixin.OnLoad(self);
+end
 
 function InscribedSecureMacroTemplateMixin:OnEnter()
-    if self.tooltipText then
+    if self.itemLink then
         GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
-        if self.itemLink then
-            GameTooltip:SetHyperlink(self.itemLink)
+        GameTooltip:SetHyperlink(self.itemLink)
+        if self.isTradegoods then
+            GameTooltip:AddLine(" ")
+            GameTooltip:AddLine("|cff3399FF"..L["HERB_MILLING_TOOLTIP"])
+            GameTooltip:AddLine("|cff9999ff"..L["HERB_AH_TOOLTIP"])
         end
-        GameTooltip:AddLine(" ")
-        GameTooltip:AddLine("|cff3399FF"..self.tooltipText)
         GameTooltip:Show()
     end
 end
@@ -326,6 +336,14 @@ function InscribedSecureMacroTemplateMixin:OnMouseDown()
             HandleModifiedItemClick(self.itemLink)
         end
     end
+    if IsAltKeyDown() then
+        if CanSendAuctionQuery() then
+            --QueryAuctionItems(self.binding.name, nil, nil, 0, false, nil, false, false, { classID = 7, subClassID = 9 })
+            BrowseName:SetText(self.binding.name)
+            BrowseSearchButton:Click()
+        end
+    end
+    self:TriggerEvent("OnInscribedSecureMacroTemplateClicked", self.binding, self)
 end
 
 function InscribedSecureMacroTemplateMixin:ClearItem()
@@ -334,21 +352,25 @@ function InscribedSecureMacroTemplateMixin:ClearItem()
     self.chance:SetText(nil)
     self.quantidy:SetText(nil)
     self.itemLink = nil;
+    self.isTradegoods = nil;
+    self.binding = nil;
     self:Hide()
 end
 
----set the item binding
----@param source table the item data to bind, must have at least a `t.itemId` entry
+---set the item binding, this will also set `obj.itemLink` for valid items
+---@param source table the item data to bind, must have at least a `source.itemId` entry
 function InscribedSecureMacroTemplateMixin:SetItem(source)
     if type(source) == "table" then
         if type(source.itemId) == "number" then
             local item = Item:CreateFromItemID(source.itemId)
             local _, _, _, _, _, classID, subclassID = GetItemInfoInstant(source.itemId)
+
             if item:IsItemEmpty() then
                 self.name:SetText(source.name)
+
             else
                 item:ContinueOnItemLoad(function()
-
+                    ---set the obj.itemLink for features such as shift click and tooltips
                     self.itemLink = item:GetItemLink()
 
                     local icon = item:GetItemIcon()
@@ -356,20 +378,24 @@ function InscribedSecureMacroTemplateMixin:SetItem(source)
                     local name = item:GetItemName()
                     self.name:SetText(name)
 
-                    ---if we have a herb item set up the milling macro for right click
-                    if classID == 7 and subclassID == 9 and name then
-                        local macro = string.format([[
-/cast Milling
-/use %s
-                        ]], name)
-                        self:SetAttribute("macrotext2", [[/run print("hello")]])
-                        self.tooltipText = L["HERB_MILLING_TOOLTIP"]
+                    ---7 = tradegoods, 9 = herbs
+                    if classID == 7 then
+                        self.isTradegoods = true;
+
+                        ---if we have a herb item set up the milling macro for right click
+                        if subclassID == 9 and name then
+                            local macro = string.format(L["MILLING_MACRO_S"] , name)
+                            self:SetAttribute("macrotext2", [[/run print("hello")]])
+                        end
+
                     else
-                        self.tooltipText = nil;
+                        self.isTradegoods = nil;
                     end
                 end)
             end
         end
+
+        ---as this obj handles multiple db items, we'll check what fields exists and set text as required
         if type(source.chance) == "number" then
             self.chance:SetText(string.format("%.2f", source.chance))
         else
@@ -380,13 +406,16 @@ function InscribedSecureMacroTemplateMixin:SetItem(source)
         else
             self.quantidy:SetText(nil)
         end
-        self.dataBinding = source;
+
+        ---finally bind the source table and show the object
+        self.binding = source;
         self:Show()
     else
         self.icon:SetTexture(nil)
         self.name:SetText(nil)
         self.chance:SetText(nil)
         self.quantidy:SetText(nil)
+        self.isTradegoods = nil;
         self:Hide()
     end
 end
