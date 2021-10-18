@@ -27,7 +27,7 @@ L["STEP_CREATES_TITLE"]             = "Creates"
 L["STEP_TEACHES_TITLE"]             = "Teaches"
 
 L["HERB_MILLING_TOOLTIP"]           = "Right click to mill"
-L["HERB_AH_TOOLTIP"]                = "Alt click to search AH"
+L["TRADEGOODS_AH_TOOLTIP"]          = "Alt click to search AH"
 
 
 ns.locales = L

@@ -79,7 +79,7 @@ end
 
 
 
-
+---this is the listview template mixin
 InscribedListviewMixin = CreateFromMixins(CallbackRegistryMixin);
 InscribedListviewMixin:GenerateCallbackEvents(
     {
@@ -90,7 +90,7 @@ InscribedListviewMixin:GenerateCallbackEvents(
 
 function InscribedListviewMixin:OnLoad()
 
-    ---these values are set in the xml frames KeyValues, it allows use to reuse code by setting listview item values in xml
+    ---these values are set in the xml frames KeyValues, it allows us to reuse code by setting listview item values in xml
     if type(self.itemTemplate) ~= "string" then
         error("self.itemTemplate name not set or not of type string")
         return;
@@ -188,35 +188,33 @@ end
 
 
 
+---this is a scroll frame option, kept for future use
+-- local ContentFrameMixin = CreateFromMixins(ResizeLayoutMixin);
 
-local ContentFrameMixin = CreateFromMixins(ResizeLayoutMixin);
+-- InscribedScrollableFrameTemplateMixin = {}
 
-InscribedScrollableFrameTemplateMixin = {}
+-- function InscribedScrollableFrameTemplateMixin:OnLoad()
 
-function InscribedScrollableFrameTemplateMixin:OnLoad()
+--     self.scrollBox:FullUpdate(ScrollBoxConstants.UpdateQueued);
 
-    self.scrollBox:FullUpdate(ScrollBoxConstants.UpdateQueued);
-
-    self.scrollView = CreateScrollBoxLinearView();
-    self.scrollView:SetPanExtent(50);
-
-
-    self.contentFrame = CreateFrame("Frame", nil, self.scrollBox, "ResizeLayoutFrame");
-    self.contentFrame.scrollable = true;
-    --self.contentFrame:OnLoad();
-    self.contentFrame:SetPoint("TOPLEFT", self.scrollBox);
-    self.contentFrame:SetPoint("TOPRIGHT", self.scrollBox);
-    self.contentFrame:SetScript("OnSizeChanged", GenerateClosure(self.OnContentSizeChanged, self));
-
-    ScrollUtil.InitScrollBoxWithScrollBar(self.scrollBox, self.scrollBar, self.scrollView);
-
-end
-
-function InscribedScrollableFrameTemplateMixin:OnContentSizeChanged()
-    self.scrollBox:FullUpdate(ScrollBoxConstants.UpdateImmediately);
-end
+--     self.scrollView = CreateScrollBoxLinearView();
+--     self.scrollView:SetPanExtent(50);
 
 
+--     self.contentFrame = CreateFrame("Frame", nil, self.scrollBox, "ResizeLayoutFrame");
+--     self.contentFrame.scrollable = true;
+--     --self.contentFrame:OnLoad();
+--     self.contentFrame:SetPoint("TOPLEFT", self.scrollBox);
+--     self.contentFrame:SetPoint("TOPRIGHT", self.scrollBox);
+--     self.contentFrame:SetScript("OnSizeChanged", GenerateClosure(self.OnContentSizeChanged, self));
+
+--     ScrollUtil.InitScrollBoxWithScrollBar(self.scrollBox, self.scrollBar, self.scrollView);
+
+-- end
+
+-- function InscribedScrollableFrameTemplateMixin:OnContentSizeChanged()
+--     self.scrollBox:FullUpdate(ScrollBoxConstants.UpdateImmediately);
+-- end
 
 
 
@@ -231,77 +229,12 @@ end
 
 
 
-InscribedListviewItemTemplateMixin = CreateFromMixins(CallbackRegistryMixin);
-InscribedListviewItemTemplateMixin:GenerateCallbackEvents(
-    {
-        "OnMouseDown",
-    }
-);
-
-function InscribedListviewItemTemplateMixin:OnLoad()
-    CallbackRegistryMixin.OnLoad(self);
-    self:SetScript("OnMouseDown", self.OnMouseDown);
-end
-
-function InscribedListviewItemTemplateMixin:OnMouseDown()
-    self:TriggerEvent("OnMouseDown", self);
-end
-
-function InscribedListviewItemTemplateMixin:OnMouseUp()
-
-end
-
-function InscribedListviewItemTemplateMixin:SetSelected(selected)
-    self.selected:SetShown(selected)
-end
-
-function InscribedListviewItemTemplateMixin:SetDataBinding(binding, height)
-    --print(binding)
-    if type(height) == "number" then
-        self:SetHeight(height)
-        self.icon:SetSize(height-8, height-8)
-        self.icon:SetTexCoord(0.1,0.9,0.1,0.9)
-        self.text:SetHeight(height)
-    else
-        error("template height not set or not of type number")
-    end
-
-    if type(binding) ~= "table" then
-        error("binding is not a table")
-        return;
-    end
-
-    --self.dataBinding = binding;
-    self:SetSelected(binding.selected);
-
-    ---for now this is a universal template so check each value
-    if binding.name then
-        self.text:SetText(binding.name)
-    elseif binding.title then
-        self.text:SetText(binding.title)
-    else
-        --error("binding.text and binding.name and binding.title are nil")
-    end
-
-    if type(binding.itemId) == "number" then
-        local _, _, _, _, icon = GetItemInfoInstant(binding.itemId)
-        if type(icon) == "number" then
-            self.icon:SetTexture(icon)
-        else
-            --error("icon value returned from GetItemInfoInstant is not of type number")
-        end
-    else
-        --error("binding.itemId is not of type number")
-    end
-
-    self.icon:SetTexture(134877)
-end
 
 
 
 
 
-
+---thsi is the template mixin for the insecure buttons used in the content panel
 InscribedSecureMacroTemplateMixin = CreateFromMixins(CallbackRegistryMixin);
 InscribedSecureMacroTemplateMixin:GenerateCallbackEvents(
     {
@@ -314,45 +247,41 @@ function InscribedSecureMacroTemplateMixin:OnLoad()
 end
 
 function InscribedSecureMacroTemplateMixin:OnEnter()
+    ---if we have a valid item link then we can show the tooltip info
     if self.itemLink then
+        local _, _, _, _, _, classID, subclassID = GetItemInfoInstant(self.itemLink)
         GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
         GameTooltip:SetHyperlink(self.itemLink)
-        if self.isTradegoods then
+        if classID == 7 then
             GameTooltip:AddLine(" ")
-            GameTooltip:AddLine("|cff3399FF"..L["HERB_MILLING_TOOLTIP"])
-            GameTooltip:AddLine("|cff9999ff"..L["HERB_AH_TOOLTIP"])
+            GameTooltip:AddLine("|cff3399FF"..L["TRADEGOODS_AH_TOOLTIP"])
+            if subclassID == 9 then
+                GameTooltip:AddLine("|cff9999ff"..L["HERB_MILLING_TOOLTIP"])
+            end
         end
         GameTooltip:Show()
     end
 end
 
 function InscribedSecureMacroTemplateMixin:OnLeave()
+    ---return the tooltip to its defaults
     GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
 end
 
-function InscribedSecureMacroTemplateMixin:OnMouseDown()
-    if IsShiftKeyDown() then
-        if self.itemLink then
-            HandleModifiedItemClick(self.itemLink)
-        end
-    end
-    if IsAltKeyDown() then
-        if CanSendAuctionQuery() then
-            --QueryAuctionItems(self.binding.name, nil, nil, 0, false, nil, false, false, { classID = 7, subClassID = 9 })
-            BrowseName:SetText(self.binding.name)
-            BrowseSearchButton:Click()
-        end
-    end
-    self:TriggerEvent("OnInscribedSecureMacroTemplateClicked", self.binding, self)
+---as we are using an insecure template to enable macro usage we'll make use of the OnMouseDown script to handle things
+---@param button string the mouse button used
+function InscribedSecureMacroTemplateMixin:OnMouseDown(button)
+    self:TriggerEvent("OnInscribedSecureMacroTemplateClicked", self, button)
 end
 
+---clear the button display and data bindings
 function InscribedSecureMacroTemplateMixin:ClearItem()
     self.icon:SetTexture(nil)
     self.name:SetText(nil)
     self.chance:SetText(nil)
     self.quantidy:SetText(nil)
     self.itemLink = nil;
-    self.isTradegoods = nil;
+    self.itemName = nil;
     self.binding = nil;
     self:Hide()
 end
@@ -362,9 +291,11 @@ end
 function InscribedSecureMacroTemplateMixin:SetItem(source)
     if type(source) == "table" then
         if type(source.itemId) == "number" then
-            local item = Item:CreateFromItemID(source.itemId)
             local _, _, _, _, _, classID, subclassID = GetItemInfoInstant(source.itemId)
+            ---to handle multiple languages we'll make use of the item mixin rather than rely on just the english db values
+            local item = Item:CreateFromItemID(source.itemId)
 
+            ---if we have no item from the mixin just set the display using the db value, no macro script will be setup
             if item:IsItemEmpty() then
                 self.name:SetText(source.name)
 
@@ -372,24 +303,18 @@ function InscribedSecureMacroTemplateMixin:SetItem(source)
                 item:ContinueOnItemLoad(function()
                     ---set the obj.itemLink for features such as shift click and tooltips
                     self.itemLink = item:GetItemLink()
-
+                    self.itemName = item:GetItemName()
+                    ---update the name displayed
+                    self.name:SetText(self.itemName)
+                    ---update the icon displayed
                     local icon = item:GetItemIcon()
                     self.icon:SetTexture(icon)
-                    local name = item:GetItemName()
-                    self.name:SetText(name)
 
-                    ---7 = tradegoods, 9 = herbs
-                    if classID == 7 then
-                        self.isTradegoods = true;
-
-                        ---if we have a herb item set up the milling macro for right click
-                        if subclassID == 9 and name then
-                            local macro = string.format(L["MILLING_MACRO_S"] , name)
-                            self:SetAttribute("macrotext2", [[/run print("hello")]])
-                        end
-
-                    else
-                        self.isTradegoods = nil;
+                    ---set the macro for right click milling
+                    if classID == 7 and subclassID == 9 then
+                        local macro = string.format(L["MILLING_MACRO_S"] , self.itemName)
+                        ---waiting for wotlk for inscription items to exists so just print hello for now
+                        self:SetAttribute("macrotext2", [[/run print("hello")]])
                     end
                 end)
             end
@@ -398,16 +323,20 @@ function InscribedSecureMacroTemplateMixin:SetItem(source)
         ---as this obj handles multiple db items, we'll check what fields exists and set text as required
         if type(source.chance) == "number" then
             self.chance:SetText(string.format("%.2f", source.chance))
+            self.chance:Show()
         else
             self.chance:SetText(nil)
+            self.chance:Hide()
         end
         if type(source.quantidy) == "number" then
             self.quantidy:SetText(source.quantidy)
+            self.quantidy:Show()
         else
             self.quantidy:SetText(nil)
+            self.quantidy:Hide()
         end
 
-        ---finally bind the source table and show the object
+        ---finally bind the source table and show the object, still need this?
         self.binding = source;
         self:Show()
     else
@@ -415,7 +344,6 @@ function InscribedSecureMacroTemplateMixin:SetItem(source)
         self.name:SetText(nil)
         self.chance:SetText(nil)
         self.quantidy:SetText(nil)
-        self.isTradegoods = nil;
         self:Hide()
     end
 end

@@ -25,9 +25,6 @@
         <Frames>
             <Frame parentKey="guide" inherits="InscribedSmallHighlightButton" parentArray="menuButtons">
                 <Size x="40" y="40"/>
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="10" y="-70"/>
-                </Anchors>
                 <KeyValues>
                     <KeyValue key="iconFileId" value="133739" type="number"/>
                     <KeyValue key="tooltipText" value="LEVELING_GUIDE" type="string"/>
@@ -35,9 +32,6 @@
             </Frame>
             <Frame parentKey="pigments" inherits="InscribedSmallHighlightButton" parentArray="menuButtons">
                 <Size x="40" y="40"/>
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="10" y="-115"/>
-                </Anchors>
                 <KeyValues>
                     <KeyValue key="iconFileId" value="134190" type="number"/>
                     <KeyValue key="tooltipText" value="PIGMENTS" type="string"/>
@@ -45,9 +39,6 @@
             </Frame>
             <Frame parentKey="inks" inherits="InscribedSmallHighlightButton" parentArray="menuButtons">
                 <Size x="40" y="40"/>
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="10" y="-160"/>
-                </Anchors>
                 <KeyValues>
                     <KeyValue key="iconFileId" value="134812" type="number"/>
                     <KeyValue key="tooltipText" value="INKS" type="string"/>
@@ -55,9 +46,6 @@
             </Frame>
             <Frame parentKey="minorResearch" inherits="InscribedSmallHighlightButton" parentArray="menuButtons">
                 <Size x="40" y="40"/>
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="10" y="-205"/>
-                </Anchors>
                 <KeyValues>
                     <KeyValue key="iconFileId" value="134331" type="number"/>
                     <KeyValue key="tooltipText" value="MINOR_RESEARCH" type="string"/>
@@ -65,9 +53,6 @@
             </Frame>
             <Frame parentKey="northrendResearch" inherits="InscribedSmallHighlightButton" parentArray="menuButtons">
                 <Size x="40" y="40"/>
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="10" y="-250"/>
-                </Anchors>
                 <KeyValues>
                     <KeyValue key="iconFileId" value="134331" type="number"/>
                     <KeyValue key="tooltipText" value="NORTHREND_RESEARCH" type="string"/>
@@ -75,9 +60,6 @@
             </Frame>
             <Frame parentKey="glyphs" inherits="InscribedSmallHighlightButton" parentArray="menuButtons">
                 <Size x="40" y="40"/>
-                <Anchors>
-                    <Anchor point="TOPLEFT" x="10" y="-295"/>
-                </Anchors>
                 <KeyValues>
                     <KeyValue key="iconFileId" value="134331" type="number"/>
                     <KeyValue key="tooltipText" value="GLYPHS" type="string"/>

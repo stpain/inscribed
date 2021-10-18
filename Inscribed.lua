@@ -13,7 +13,6 @@ local CONTENT_PANEL_LIST_ROW_HEIGHT = 20.0
 
 InscribedMixin = {}
 
-
 function InscribedMixin:OnLoad()
 
     local name = self:GetName()
@@ -40,7 +39,8 @@ function InscribedMixin:OnLoad()
     ---this table holds the content view item bindings and is used with the back button
     self.viewHistory = {}
 
-    ---setup the menu buttons
+    ---setup the menu buttons, these values are also the db names from the Data.lua file
+    ---if this causes an issue we can just change this table to contain table names and xml names.
     local menu = {
         "glyphs",
         "inks",
@@ -49,7 +49,9 @@ function InscribedMixin:OnLoad()
         "minorResearch",
         "guide",
     }
-    for _, menu in ipairs(menu) do
+    local offsetY = 70.0;
+    for k, menu in ipairs(menu) do
+        self[menu]:SetPoint("TOPLEFT", 10, ((k-1) * -45) - offsetY)
         self[menu].func = function()
             self.listview.DataProvider:Flush();
             self.listview.DataProvider:InsertTable(ns[menu])
@@ -58,55 +60,15 @@ function InscribedMixin:OnLoad()
             self:SelectMenuButton(self[menu])
         end
     end
-    -- self.guide.func = function()
-    --     self.listview.DataProvider:Flush();
-    --     self.listview.DataProvider:InsertTable(ns.guide)
-    --     self.listview:TriggerEvent("OnDataTableChanged", ns.guide);
-    --     wipe(self.viewHistory)
-    --     self:SelectMenuButton(self.guide)
-    -- end
-    -- self.pigments.func = function()
-    --     self.listview.DataProvider:Flush();
-    --     self.listview.DataProvider:InsertTable(ns.pigments)
-    --     self.listview:TriggerEvent("OnDataTableChanged", ns.pigments);
-    --     wipe(self.viewHistory)
-    --     self:SelectMenuButton(self.pigments)
-    -- end
-    -- self.inks.func = function()
-    --     self.listview.DataProvider:Flush();
-    --     self.listview.DataProvider:InsertTable(ns.inks)
-    --     self.listview:TriggerEvent("OnDataTableChanged", ns.inks);
-    --     wipe(self.viewHistory)
-    -- end
-    -- self.minorResearch.func = function()
-    --     self.listview.DataProvider:Flush();
-    --     self.listview.DataProvider:InsertTable(ns.minorInscriptionResearch)
-    --     self.listview:TriggerEvent("OnDataTableChanged", ns.minorInscriptionResearch);
-    --     wipe(self.viewHistory)
-    -- end
-    -- self.northrendResearch.func = function()
-    --     self.listview.DataProvider:Flush();
-    --     self.listview.DataProvider:InsertTable(ns.northrendInscriptionResearch)
-    --     self.listview:TriggerEvent("OnDataTableChanged", ns.northrendInscriptionResearch);
-    --     wipe(self.viewHistory)
-    -- end
-    -- self.glyphs.func = function()
-    --     self.listview.DataProvider:Flush();
-    --     self.listview.DataProvider:InsertTable(ns.glyphs)
-    --     self.listview:TriggerEvent("OnDataTableChanged", ns.glyphs);
-    --     wipe(self.viewHistory)
-    -- end
 
     ---setup the back button
     self.content.backButton.func = function()
         if #self.viewHistory > 0 then
             local previousContent = self.viewHistory[#self.viewHistory]
             --DevTools_Dump({ previousContent })
-            local showBackButton = #self.viewHistory > 1 and true or false;
+            local showBackButton = (#self.viewHistory > 1) and true or false;
             self:SetContent(previousContent, showBackButton)
             self.viewHistory[#self.viewHistory] = nil;
-        else
-
         end
     end
 
@@ -118,7 +80,8 @@ function InscribedMixin:OnLoad()
 
 end
 
-
+---a basic function to hide then show the selected menu button selected texture
+---@param button any the object to modify
 function InscribedMixin:SelectMenuButton(button)
     for _, button in ipairs(self.menuButtons) do
         button.selected:Hide()
@@ -132,13 +95,37 @@ function InscribedMixin:OnListSelectionChanged(binding)
     self:SetContent(binding)
 end
 
+---this object is the content view listview type buttons, usually displaying materials or items created
 ---this is triggered from the template when clicked and its purpose is to update the content view
----@param item table the objects binding
-function InscribedMixin:OnInscribedSecureMacroTemplateClicked(item)
-    --DevTools_Dump({ item })
-    if item.dbName and item.itemId then
+---@param obj any the object clicked
+---@param button string the button used
+function InscribedMixin:OnInscribedSecureMacroTemplateClicked(obj, button)
+    --DevTools_Dump({ ... })
+
+    ---the dbItem is the table that we bound in the template, this was passed from when we set the content and looped the child tables
+    ---we use dbItem to search for an item within a table using the dbItem.dbName foreign key and then dbItem.itemId as the lookup value
+    ---name, link are set during the item:ContinueOnLoad callback in the template
+    ---we use name, link to cover multiple languages as they are values returned from the server
+    local dbItem = obj.binding;
+    local name, link = obj.itemName, obj.itemLink
+    --print(name, link)
+
+    ---setup the AH interaction, alt+click will (when possible) search the AH for the item
+    if IsAltKeyDown() and name and CanSendAuctionQuery() then
+        ---this call will only populate page 0, using the next/prev page buttons will display an all items scan
+        ---to get around this we just add the item name to the search box and click search to replicate a user search
+        --QueryAuctionItems(self.binding.name, nil, nil, 0, false, nil, false, false, { classID = 7, subClassID = 9 })
+        BrowseName:SetText(name)
+        BrowseSearchButton:Click()
+
+    ---enable the shift click linking if an itemLink exists
+    elseif IsShiftKeyDown() and link then
+        HandleModifiedItemClick(link)
+
+    ---add this view to the history and load the next view
+    elseif button == "LeftButton" and dbItem.dbName and dbItem.itemId then
         local currentBinding = self.content.binding;
-        local elementData = self:FindDbEntryByItemId(item.dbName, item.itemId)
+        local elementData = self:FindDbEntryByItemId(dbItem.dbName, dbItem.itemId)
         if type(elementData) == "table" then
             table.insert(self.viewHistory, currentBinding)
             self:SetContent(elementData, true)
@@ -151,7 +138,7 @@ end
 ---@param itemId number the itemId value to search for
 function InscribedMixin:FindDbEntryByItemId(db, itemId)
     if not ns[db] then
-        error("no db of that name exists")
+        error(string.format("couldnt find [%s] in [%s] as no db of that name exists", itemId, db))
     end
     if type(itemId) ~= "number" then
         error("itemId is not of type number")
@@ -185,8 +172,9 @@ function InscribedMixin:SetContent(binding, showBackButton)
     content.binding = binding;
 
 
-    ---TODO: maybe make this better, perhaps add a value to the addon ui to check which view?
-    ---using .sources to identify if this is a pigment item
+    ---TODO: maybe make this better, perhaps add a value to the addon ui to check which view? OR just have a universal ui layout for all items?
+    
+    ---display a pigment item
     if binding.sources then
 
         ---lets get the higher drop chance listed first
@@ -229,7 +217,7 @@ function InscribedMixin:SetContent(binding, showBackButton)
         end
     end
 
-
+    ---we have an ink item being displayed
     if binding.pigments then
 
         content.notes:SetText(L["INK_NOTE"])
@@ -256,33 +244,15 @@ function InscribedMixin:SetContent(binding, showBackButton)
                 row:SetItem(source)
                 row:RegisterCallback("OnInscribedSecureMacroTemplateClicked", self.OnInscribedSecureMacroTemplateClicked, self);
 
-                -- row:SetScript("OnMouseDown", function(_, button)
-                --     if button == "LeftButton" then
-                --         local elementData = self:FindDbEntryByItemId("pigments", source.itemId)
-                --         if type(elementData) == "table" then
-                --             table.insert(self.viewHistory, binding)
-                --             self:SetContent(elementData, true)
-                --         end
-                --     end
-                -- end)
-
                 content.inkMaterials.rows[k] = row
             else
                 content.inkMaterials.rows[k]:SetItem(source)
 
-                -- content.inkMaterials.rows[k]:SetScript("OnMouseDown", function(_, button)
-                --     if button == "LeftButton" then
-                --         local elementData = self:FindDbEntryByItemId("pigments", source.itemId)
-                --         if type(elementData) == "table" then
-                --             table.insert(self.viewHistory, binding)
-                --             self:SetContent(elementData, true)
-                --         end
-                --     end
-                -- end)
             end
         end
     end
 
+    ---guide item
     if binding.materials then
     
         content.stepMaterials:Show()
@@ -305,35 +275,18 @@ function InscribedMixin:SetContent(binding, showBackButton)
                 row.icon:SetSize(CONTENT_PANEL_LIST_ROW_HEIGHT-2, CONTENT_PANEL_LIST_ROW_HEIGHT-2)
                 row.iconBorder:SetSize(CONTENT_PANEL_LIST_ROW_HEIGHT, CONTENT_PANEL_LIST_ROW_HEIGHT)
                 row:SetItem(source)
-
-                row:SetScript("OnMouseDown", function(_, button)
-                    if button == "LeftButton" then
-                        local elementData = self:FindDbEntryByItemId(source.dbName, source.itemId)
-                        if type(elementData) == "table" then
-                            table.insert(self.viewHistory, binding)
-                            self:SetContent(elementData, true)
-                        end
-                    end
-                end)
+                row:RegisterCallback("OnInscribedSecureMacroTemplateClicked", self.OnInscribedSecureMacroTemplateClicked, self);
 
                 content.stepMaterials.rows[k] = row
             else
                 content.stepMaterials.rows[k]:SetItem(source)
 
-                content.stepMaterials.rows[k]:SetScript("OnMouseDown", function(_, button)
-                    if button == "LeftButton" then
-                        local elementData = self:FindDbEntryByItemId(source.dbName, source.itemId)
-                        if type(elementData) == "table" then
-                            table.insert(self.viewHistory, binding)
-                            self:SetContent(elementData, true)
-                        end
-                    end
-                end)
             end
         end
 
     end
 
+    ---guide item again
     if binding.creates then
 
         self.content.stepCreates.title:SetText(L["STEP_CREATES_TITLE"])
@@ -358,36 +311,19 @@ function InscribedMixin:SetContent(binding, showBackButton)
                 row.icon:SetSize(CONTENT_PANEL_LIST_ROW_HEIGHT-2, CONTENT_PANEL_LIST_ROW_HEIGHT-2)
                 row.iconBorder:SetSize(CONTENT_PANEL_LIST_ROW_HEIGHT, CONTENT_PANEL_LIST_ROW_HEIGHT)
                 row:SetItem(source)
-                
-                row:SetScript("OnMouseDown", function(_, button)
-                    if button == "LeftButton" then
-                        local elementData = self:FindDbEntryByItemId(source.dbName, source.itemId)
-                        if type(elementData) == "table" then
-                            table.insert(self.viewHistory, binding)
-                            self:SetContent(elementData, true)
-                        end
-                    end
-                end)
+                row:RegisterCallback("OnInscribedSecureMacroTemplateClicked", self.OnInscribedSecureMacroTemplateClicked, self);
 
                 content.stepCreates.rows[k] = row
             else
                 content.stepCreates.rows[k]:SetItem(source)
 
-                content.stepCreates.rows[k]:SetScript("OnMouseDown", function(_, button)
-                    if button == "LeftButton" then
-                        local elementData = self:FindDbEntryByItemId(source.dbName, source.itemId)
-                        if type(elementData) == "table" then
-                            table.insert(self.viewHistory, binding)
-                            self:SetContent(elementData, true)
-                        end
-                    end
-                end)
             end
         end
 
         --content.stepCreates.contentFrame:MarkDirty();
     end
 
+    ---guide item again
     if binding.teaches then
 
         self.content.stepCreates.title:SetText(L["STEP_TEACHES_TITLE"])
@@ -412,6 +348,7 @@ function InscribedMixin:SetContent(binding, showBackButton)
                 row.icon:SetSize(CONTENT_PANEL_LIST_ROW_HEIGHT-2, CONTENT_PANEL_LIST_ROW_HEIGHT-2)
                 row.iconBorder:SetSize(CONTENT_PANEL_LIST_ROW_HEIGHT, CONTENT_PANEL_LIST_ROW_HEIGHT)
                 row:SetItem(source)
+                row:RegisterCallback("OnInscribedSecureMacroTemplateClicked", self.OnInscribedSecureMacroTemplateClicked, self);
 
                 content.stepCreates.rows[k] = row
             else
@@ -421,6 +358,7 @@ function InscribedMixin:SetContent(binding, showBackButton)
 
     end
 
+    ---glyph item
     if binding.class and binding.requiredLevel then
         local info = string.format("Type: %s \nClass: %s \nRequired level: %s \nLevel: %s", binding.type, binding.class, binding.requiredLevel, binding.level)
 
