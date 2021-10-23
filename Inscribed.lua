@@ -5,7 +5,7 @@
 
 
 ---addon namespace
-local _, ns = ...
+local addonName, ns = ...
 
 local L = ns.locales;
 
@@ -78,6 +78,21 @@ function InscribedMixin:OnLoad()
     self.content.stepMaterials.title:SetText(L["STEP_MATERIALS_TITLE"])
     self.content.stepCreates.title:SetText(L["STEP_CREATES_TITLE"])
 
+    ---create the table for player container items info
+    self.playerContainers = {}
+
+
+    self:RegisterEvent("BAG_UPDATE_DELAYED")
+    self:RegisterEvent("ADDON_LOADED")
+
+end
+
+---listen to events and handle them
+---@param event string the event name from blizzard
+function InscribedMixin:OnEvent(event, ...)
+    if event == "ADDON_LOADED" and ... == addonName then
+        INSCRIBED_GLOBAL = {}
+    end
 end
 
 ---a basic function to hide then show the selected menu button selected texture
@@ -150,6 +165,38 @@ function InscribedMixin:FindDbEntryByItemId(db, itemId)
     end
     return false;
 end
+
+
+---scan the players bags for inscription items and materials
+function InscribedMixin:ScanPlayerBags()
+    for bag = 0, 4 do
+        for slot = 1, GetContainerNumSlots(bag) do
+            local _, count, _, _, _, _, link, _, _, _ = GetContainerItemInfo(bag, slot)
+            local exists = false;
+            if link and count then
+                local itemId, itemType, itemSubType, itemEquipLoc, icon, classID, subclassID = GetItemInfoInstant(link)
+                exists = false;
+                for _, v in ipairs(self.containers) do
+                    if v.itemId == itemId then
+                        exists = true;
+                        v.count = v.count + count;
+                    end
+                end
+                if exists == false then
+                    table.insert(self.containers, {
+                        itemId = itemId,
+                        count = count,
+                        link = link,
+                        classId = classID,
+                        subClassId = subclassID,
+                        icon = icon,
+                    })
+                end
+            end
+        end
+    end
+end
+
 
 ---load the data table into view, this could be split into the seperate db types
 ---@param binding any the data table to load into view, this is from 1 of the tables in the Data.lua file

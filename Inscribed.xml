@@ -169,6 +169,7 @@
 
         <Scripts>
             <OnLoad method="OnLoad"/>
+            <OnEvent method="OnEvent"/>
             <OnDragStart>
                 self:StartMoving()
             </OnDragStart>

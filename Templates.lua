@@ -226,6 +226,76 @@ end
 
 
 
+InscribedListviewItemTemplateMixin = CreateFromMixins(CallbackRegistryMixin);
+InscribedListviewItemTemplateMixin:GenerateCallbackEvents(
+    {
+        "OnMouseDown",
+    }
+);
+
+function InscribedListviewItemTemplateMixin:OnLoad()
+    CallbackRegistryMixin.OnLoad(self);
+    self:SetScript("OnMouseDown", self.OnMouseDown);
+end
+
+function InscribedListviewItemTemplateMixin:OnMouseDown()
+    self:TriggerEvent("OnMouseDown", self);
+end
+
+function InscribedListviewItemTemplateMixin:OnMouseUp()
+
+end
+
+function InscribedListviewItemTemplateMixin:SetSelected(selected)
+    self.selected:SetShown(selected)
+end
+
+function InscribedListviewItemTemplateMixin:SetDataBinding(binding, height)
+    --print(binding)
+    if type(height) == "number" then
+        self:SetHeight(height)
+        self.icon:SetSize(height-8, height-8)
+        self.icon:SetTexCoord(0.1,0.9,0.1,0.9)
+        self.text:SetHeight(height)
+    else
+        error("template height not set or not of type number")
+    end
+
+    if type(binding) ~= "table" then
+        error("binding is not a table")
+        return;
+    end
+
+    --self.dataBinding = binding;
+    self:SetSelected(binding.selected);
+
+    ---for now this is a universal template so check each value
+    if binding.name then
+        self.text:SetText(binding.name)
+    elseif binding.title then
+        self.text:SetText(binding.title)
+    else
+        --error("binding.text and binding.name and binding.title are nil")
+    end
+
+    if type(binding.itemId) == "number" then
+        local _, _, _, _, icon = GetItemInfoInstant(binding.itemId)
+        if type(icon) == "number" then
+            self.icon:SetTexture(icon)
+        else
+            --error("icon value returned from GetItemInfoInstant is not of type number")
+        end
+    else
+        --error("binding.itemId is not of type number")
+    end
+
+    self.icon:SetTexture(134877)
+end
+
+
+
+
+
 
 
 
